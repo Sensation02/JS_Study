@@ -710,6 +710,102 @@ console.log(newArray); // [ 3, 6, 9 ]
 // також замість (el) => {  можна писати  function(el) {
 // #endregion
 
-// #region Деструктуризація
+// #region Деструктуризація об'єктів
+// Destructuring assignment
 
+const userProfile = {
+  name: "Vasyl",
+  commentsQty: 23,
+  hasSignedAgreement: false,
+};
+
+// створюємо нові перемінні використовуючи властивості об'єкта:
+const { name, commentsQty } = userProfile;
+const { hasSignedAgreement } = userProfile;
+// імена властивостей об'єкта = об'єкт (чиї властивості ми беремо) і все це відбувається за рахунок фігурних дужок {}
+
+console.log(name); // Vasyl
+console.log(commentsQty); // 23
+// #endregion
+
+// #region Деструктуризація масивів
+const fruits = ["Apple", "Banana"];
+// нові перемінні на основі значень елементів масиву
+const [fruitOne, fruitTwo] = fruits;
+// тут [] дужки, тому що працюємо з масивом
+// використовуємо нові перемінні в тому порядку якому нам треба, щоб елементи масиву їм відповідали. Тобто перший фрукт і другий фрукт які відповідають яблуко(1) та банан(2). Елемент під індексом 0 буде присвоєний в перемінну fruitOne і тд.
+console.log(fruitOne); // Apple
+console.log(fruitTwo); // Banana
+// #endregion
+
+// #region Деструктуризація в функціях
+
+// Сюди заходять тільки ті властивості об'єкта які потрібні для функції:
+const userInfo = ({ name, commentsQty }) => {
+  if (!commentsQty) {
+    return `User ${name} has no comments`;
+  }
+  return `User ${name} has ${commentsQty} comments`;
+};
+// тобто відбувається деструктуризація властивостей об'єкта в функції. Іншими словами в функцію в якості параметрів ми вносимо створення нових перемінних, надаємо їм дані з нашого об'єкта і виконуємо над ними дію. Такі перемінні будуть видимі тільки в тілі функції
+console.log(userInfo(userProfile)); // User Vasyl has 23 comments
+// #endregion
+
+// #region Умовні інструкції
+// if , if else , switch , тернарний оператор.. ну все як в C#))
+let val = 10;
+if (val > 5) {
+  val += 10;
+}
+// в дужках перевіряється умова, якщо там true => виконується дія в блоці
+console.log(val); // 20
+
+const newPerson = {
+  age: 20,
+};
+if (!newPerson.name) {
+  // !undefined === true => true !!!!
+  console.log("name is undefined");
+}
+// якщо в newPerson властивість name !undefined, буде виконана дія в блоці коду (не пуста строка)
+// тобто перевіряється на true, якщо так то виконується блок кода
+
+if (val < 5) {
+  val += 10; // цей блок кода якщо true
+} else {
+  val -= 10; // цей блок кода якщо false
+}
+console.log(val); // 0
+
+if (val < 5) {
+  val += 10; // 1 варіант якщо в умові true
+} else if (val > 5) {
+  val -= 10; // 2 варіант якщо 1 варіант був false ; else if може бути безліч
+} else {
+  val = 15; // 3 варіант при false в попередніх варіантах
+}
+console.log(val); // 0
+
+const newPerson1 = {
+  age: 25,
+};
+const { age } = newPerson1;
+if (age >= 18) {
+  console.log("Is Adult"); 
+} else if (age >= 12 && age < 18) {
+  console.log("Is Teenager");
+} else {
+  console.log("Is Child");
+}
+// АЛЕ це не дуже читабельно, краще щоб було 3 if:
+if (age >= 18) {
+  console.log('is adult')
+}
+if (age >= 12 && age < 18) {
+  console.log('is teenager')
+}
+if (age < 12) {
+  console.log('is child')
+}
+// ніби зручніше читати?)
 // #endregion
