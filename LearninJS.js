@@ -791,7 +791,7 @@ const newPerson1 = {
 };
 const { age } = newPerson1;
 if (age >= 18) {
-  console.log("Is Adult"); 
+  console.log("Is Adult");
 } else if (age >= 12 && age < 18) {
   console.log("Is Teenager");
 } else {
@@ -799,14 +799,120 @@ if (age >= 18) {
 }
 // АЛЕ це не дуже читабельно, краще щоб було 3 if:
 if (age >= 18) {
-  console.log('is adult')
+  console.log("is adult");
 }
 if (age >= 12 && age < 18) {
-  console.log('is teenager')
+  console.log("is teenager");
 }
 if (age < 12) {
-  console.log('is child')
+  console.log("is child");
 }
 // ніби зручніше читати?)
+
+// Використання IF у функціях
+const sumPositiveNumbers = (a, b) => {
+  if (typeof a !== "number" || typeof b !== "number") {
+    return "One of the arguments is not a number";
+  }
+  if (a <= 0 || b <= 0) {
+    return "Number are not positive";
+  }
+  return a + b;
+};
+
+// Switch:
+const month = 2;
+switch (
+  month // значення перемінної порівнюється із..
+) {
+  case 1: // .. тим значенням що тут, і в залежності від значення буде такий то кейс
+    console.log("January");
+    break;
+  case 2:
+    console.log("February");
+    break;
+  case 12:
+    console.log("December");
+    break;
+  default:
+    console.log("This is not a winter month");
+}
+
+// Тернарний оператор
+// Конструкція тернарного оператора це вираз, а вираз завжди повертає значення
+// Example #1
+let value = 11;
+value ? console.log("True value") : console.log("False value"); // output: True value
+
+// Example #2
+const value1 = 11;
+const value2 = 22;
+value1 && value2 ? console.log(value1, value2) : console.log(); // output: value1, value2 (11, 22)
+
+// Example #3
+let value3 = 12;
+console.log(value3 >= 0 ? value3 : -value3); // output: 12
+
+value = -5;
+let result = value >= 0 ? value : -value;
+console.log(result); // output: 5
+
 // #endregion
 
+// #region Цикли
+// Типи циклів:
+// - for
+// - for ... in ...
+// - while
+// - do ... while
+// - for ... of ...
+
+// #region FOR:
+// for (початкова інструкція; умова; ітераційна дія) { блок коду який виконується на кожній ітерації }
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+} // з кожною ітерацією число буде збільшуватися на 1; output = 0 1 2 3 4
+
+// Example with array
+let myArray = ["first", "second", "third"];
+for (let i = 0; i < myArray.length; i++) {
+  console.log(myArray[i]);
+} // output = 'first' => 'second' => 'third'
+// Але так перебирати масив не дуже зручно, не дуже читабельно і можна сильно заплутатися і наробити помилок
+
+// Краще використовувати FOREACH (ТАК рекомендується робити!)
+myArray = ["one", "two", "three"];
+myArray.forEach((element, index) => {
+  console.log(element, index);
+});
+// output = one 0, two 1, three 2
+// #endregion
+
+// #region WHILE
+// виконує блок кода поки умова правдива
+// while (умова) { блок кода }
+value = 0;
+while (value < 5) {
+  console.log(value);
+  value++;
+} // output = 0 1 2 3 4
+// #endregion
+
+// #region DO WHILE
+// цикл виконується один раз, а потім перевіряє умову. Цикл виконується поки умова правдива, якщо не правдива, виконається хоч один раз
+// do { блок кода } while (умова)
+value = 0;
+do {
+  console.log(value);
+  value++;
+} while (value < 5); // output = 0 1 2 3 4
+
+value = 10
+do {
+  console.log(value);
+  value++;
+} while (value < 5); // output = 10
+// Такий цикл добре використовувати коли треба виконати блок кода хоча б раз
+// #endregion
+
+// #endregion
