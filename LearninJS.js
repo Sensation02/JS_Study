@@ -998,5 +998,19 @@ class Comment {
     this.votesQty += 1;
   }
 }
+// екземпляр класу:
+const firstComment = new Comment("First Comment");
+console.table(firstComment); // First Comment 0
+firstComment.upvote(); // 0 + 1
+console.log(firstComment.votesQty); // 1
 
+// належність екземпляра тому чи іншому класу:
+firstComment instanceof Comment; // true
+firstComment instanceof Object; // true => тому що Object це глобальний клас від якого походять всі інші класи
+
+// перевірка належності властивості екземпляру об'єкту
+firstComment.hasOwnProperty('text') // true
+firstComment.hasOwnProperty('votesQty') // true
+firstComment.hasOwnProperty('upvote') // false => методи будуть тільки так, тому цей метод є тільки в прототипі
+firstComment.hasOwnProperty('hasOwnProperty') // false => так і тут, цей метод є тільки в глобальному класі
 // #endregion
