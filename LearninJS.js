@@ -997,6 +997,10 @@ class Comment {
     // метод(функція)
     this.votesQty += 1;
   }
+  static mergeComments(first, second) {
+    // проста конкатенація текстів
+    return `${first} ${second}`;
+  }
 }
 // екземпляр класу:
 const firstComment = new Comment("First Comment");
@@ -1009,8 +1013,66 @@ firstComment instanceof Comment; // true
 firstComment instanceof Object; // true => тому що Object це глобальний клас від якого походять всі інші класи
 
 // перевірка належності властивості екземпляру об'єкту
-firstComment.hasOwnProperty('text') // true
-firstComment.hasOwnProperty('votesQty') // true
-firstComment.hasOwnProperty('upvote') // false => методи будуть тільки так, тому цей метод є тільки в прототипі
-firstComment.hasOwnProperty('hasOwnProperty') // false => так і тут, цей метод є тільки в глобальному класі
+firstComment.hasOwnProperty("text"); // true
+firstComment.hasOwnProperty("votesQty"); // true
+firstComment.hasOwnProperty("upvote"); // false => методи будуть тільки так, тому цей метод є тільки в прототипі
+firstComment.hasOwnProperty("hasOwnProperty"); // false => так і тут, цей метод є тільки в глобальному класі
+
+// Декілька екземплярів якогось класу:
+const secondComment = new Comment("Second comment");
+const thirdComment = new Comment("Third comment");
+
+// #region Статичні методи
+Comment.mergeComments(firstComment, secondComment);
+// такий метод буде доступний як метод класу Comment і він не буде успадковуватися екземплярами класу
+// #endregion
+
+// #region Розширення інших класів
+class NumberArray extends Array {
+  // extends - розширює інший клас
+  sum() {
+    // додаємо новий метод, який буде сумувати всі елементи нового масиву
+    return this.reduce((el, acc) => (acc += el), 0);
+  }
+}
+// TODO: Розібратися із reduce !!!
+
+const numberArray = new NumberArray(2, 5, 7); // тут спершу викликається батьківський конструктор, а потім додаються методи які його розширюють
+
+console.log(numberArray);
+numberArray.sum(); // 14
+// #endregion
+
+// #endregion
+
+// #region Проміси
+// Проміси дозволяють обробляти відкладені в часі події
+// Наприклад треба відправити запит на віддалений сервер і отримати відповідь. запит можна відправити, але ми не знаємо коли буде відповідь. Наш додаток має очікувати відповідь від сервера і в цей час він має щось робити, або не робити нічого, що не бажано. Тому такий запит робиться асинхронно і відповідь приходить асинхронно. Коротко: Проміс - це обіцянка дати відповідь пізніше, або повернути помилку якщо результат запиту повернути неможливо.
+
+// У Проміса є три стани:
+// 1. Очікування (або pending)
+// 2. Виконаний (resolved)
+// 3. Відхилений (rejected; при помилці)
+
+/*
+const myPromise = new Promise((resolve, reject) => { 
+  виконання асинхронних дій. 
+  Всередині можна викликати одну з функцій resolve або reject
+})
+*/
+
+// Отримання результату Промісу (як з ним працювати): 
+/*
+myPromise
+.then(value => {
+...Дія у випадку успішного виконання Проміса
+...Значення value - це значення, передане у виклику функції resolve всередину Промісу
+})
+.catch(error => {
+...Дія у випадку відхилення Промісу
+...Значення error - це значення, передане у виклику функції reject всередину Промісу
+})
+*/
+
+
 // #endregion
