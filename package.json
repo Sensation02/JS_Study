@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "moment": "^2.29.4"
+  },
+  "name": "js-study",
+  "version": "0.0.1",
+  "description": "test project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sensation02/JS_Study.git"
+  },
+  "author": "Bazzil aka Sensation02",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sensation02/JS_Study/issues"
+  },
+  "homepage": "https://github.com/Sensation02/JS_Study#readme"
+}
