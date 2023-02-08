@@ -1061,7 +1061,7 @@ const myPromise = new Promise((resolve, reject) => {
 })
 */
 
-// Отримання результату Промісу (як з ним працювати): 
+// Отримання результату Промісу (як з ним працювати):
 /*
 myPromise
 .then(value => {
@@ -1074,5 +1074,21 @@ myPromise
 })
 */
 
+fetch("https://jsonplaceholder.typicode.com/todos") // створюється проміс в стані pending; ні одна наступна дія не буде виконана поки наш проміс в pending; Якщо стан зміниться то виконається одна з наступних дій
+  .then((response) => response.json()) // resolved, але тут через метод json створюється новий проміс (нашу відповідь присвоюємо в response і далі за допомоги функції потрібні нам дані "пакуються в json")
+  .then((json) => console.log(json)) // знову resolved, вже попереднього проміса, який повертає об'єкт або масив об'єктів
+  .catch((err) => console.log(err)); // rejected, якщо попередні проміси не виконалися
 
+// спрощуємо попередній запит (вбудована функція fetch):
+const getData = (url) =>
+  new Promise((resolve, reject) =>
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => resolve(json))
+      .catch((err) => reject(err))
+  );
+
+getData("https://jsonplaceholder.typicode.com/todos/4")
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err.message));
 // #endregion
