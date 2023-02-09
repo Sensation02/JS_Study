@@ -90,16 +90,16 @@ myCity.city = `New York`;
 console.log(myCity.city); // `New York`
 
 delete myCity.city; // видалення властивості
-myCity.city = "New York"; // додавання нової властивості
+myCity.city = 'New York'; // додавання нової властивості
 delete myCity.city;
 
 // запис властивості "в лапках":
-myCity[`cityName`] = "New York";
+myCity[`cityName`] = 'New York';
 // так робиться якщо десь вже є перемінна з таким іменем (`cityName`)
 
 // або
-const cityPropertyName = "city";
-myCity[cityPropertyName] = "New York";
+const cityPropertyName = 'city';
+myCity[cityPropertyName] = 'New York';
 console.log(myCity.city); // "New York"
 // тобто ми спочатку створили перемінну, а потім через назву перемінної дали ім'я властивості в об'єкт тим чим присвоєно в ту перемінну ("city")
 
@@ -108,7 +108,7 @@ delete myCity.country;
 delete myCity.city;
 
 // вкладені об'єкт + використання перемінної як властивості об'єкта:
-const city = "New York";
+const city = 'New York';
 const population = 100000;
 const myNewCity = {
   city: city, // тут можна скоротити прибравши city після двокрапок
@@ -116,7 +116,7 @@ const myNewCity = {
   info: {
     // вкладений об'єкт
     isPopular: true,
-    country: "USA",
+    country: 'USA',
   },
 };
 // причому властивості які використовують перемінні, як правило, пишуться на початку в об'єкті
@@ -129,8 +129,8 @@ console.log(myNewCity.info.country); // "USA"
 // як видаляти:
 delete myNewCity.info.country;
 // як додавати:
-const countryPropertyName = "country";
-myNewCity.info[countryPropertyName] = "USA";
+const countryPropertyName = 'country';
+myNewCity.info[countryPropertyName] = 'USA';
 
 // #endregion
 
@@ -142,17 +142,17 @@ myNewCity.info[countryPropertyName] = "USA";
 globalThis; // уніфікований глобальний об'єкт
 
 // console це об'єкт глобальних об'єкті
-globalThis.console.log("hello world");
-console.log("hello world");
+globalThis.console.log('hello world');
+console.log('hello world');
 
 // #endregion
 
 // #region Методи
 // це об'єкт в об'єкті який приставляє собою функцію
 const myNewCity2 = {
-  city: "New York",
+  city: 'New York',
   CityGreeting() {
-    console.log("Hello!");
+    console.log('Hello!');
   },
 };
 
@@ -190,7 +190,7 @@ console.log(c); // 30
 // ----------------------------------------------------------------
 // А що якщо ми скопіюємо об'єкт? (ссилочний тип)
 const person = {
-  name: "John",
+  name: 'John',
   age: 34,
 };
 
@@ -215,7 +215,7 @@ console.log(person3.age); // 26
 
 // Варіант №2:
 const person4 = { ...person }; // ... - це оператор розділення (spread), тобто відбувається розділення властивостей які потім збираються в новому об'єкті
-person4.name = "Alice";
+person4.name = 'Alice';
 
 console.log(person.name); // 'John'
 console.log(person4.name); // 'Alice'
@@ -224,7 +224,7 @@ console.log(person4.name); // 'Alice'
 // Варіант №3:
 const person5 = JSON.parse(JSON.stringify(person)); // тобто конвертуємо person в JSON, а потім той JSON назад в новий об"єкт person5
 
-person5.name = "Bob";
+person5.name = 'Bob';
 
 console.log(person.name); // 'John'
 console.log(person5.name); // 'Bob'
@@ -282,7 +282,7 @@ console.log(person.age); // 23
 // А що робити якщо це треба зробити?
 
 const personOne = {
-  name: "Michael",
+  name: 'Michael',
   age: 25,
 };
 
@@ -309,9 +309,9 @@ fnWithCallback(anotherFunction); // викликаємо функцію і в я
 
 // Приклад:
 function printMyName() {
-  console.log("Vasyl");
+  console.log('Vasyl');
 }
-console.log("Start"); // такий собі старт щоб розуміти що далі відбудеться
+console.log('Start'); // такий собі старт щоб розуміти що далі відбудеться
 setTimeout(printMyName, 2000); // наша функція викличеться через 2 секунди після попередньої
 // даний виклик був callback function
 
@@ -351,21 +351,21 @@ setTimeout(printMyName, 2000); // наша функція викличеться
 
 // Трюк з "&&" (i)
 let borya = 10;
-borya && console.log("executed!");
+borya && console.log('executed!');
 // executed!
 let borya2;
-borya2 && console.log("executed!");
+borya2 && console.log('executed!');
 // не виконалося бо "borya2" false
 
 // оператор "..."
 const button = {
   width: 200,
-  text: "Buy",
-  color: "black",
+  text: 'Buy',
+  color: 'black',
 };
 const redButton = {
   ...button,
-  color: "red",
+  color: 'red',
 }; // створюємо новий об'єкт і додаємо в нього нову властивість, або переписуємо стару.
 
 // якщо властивість "color" вже є у батьківського об'єкта, то значення в новому об'єкті буде перезаписано. Тобто було color: black, а в новому - color: red.
@@ -375,10 +375,10 @@ console.table(redButton); // вивід в табличному вигляді
 // --------------------------------------------------------------------
 
 const buttonInfo = {
-  text: "Buy",
+  text: 'Buy',
 };
 const buttonStyle = {
-  color: "yellow",
+  color: 'yellow',
   width: 200,
   height: 300,
 };
@@ -393,12 +393,28 @@ console.table(button2);
 // все так як при мутації об'єктів, але ми беремо окремі властивості і додаємо нові або змінюємо старі
 // #endregion
 
-// #region Конкатенація строк
-console.log("hello " + "world!");
+// #region Math object
+let resultMath;
+resultMath = Math.min(2, 6, 10, 1000); // 2
+resultMath = Math.PI; // 3.14...
+resultMath = Math.random(); // random number with point between 0 and 1
+resultMath = Math.round(3.5); // 4; 3.3 -> 3
+resultMath = Math.floor(Math.random() * 100) + 1; // random number without point between 0 and 100
+resultMath = Math.ceil(3.3); // 4;
+resultMath = Math.floor(3.7); // 3;
+resultMath = Math.sqrt(9); // 3
+resultMath = Math.abs(-7); // 7
+resultMath = Math.pow(2, 3); // (2*2*2) -> 8
+resultMath = Math.max(2, 5, 1, 200); // 200
+resultMath = Math.random() * 100; // random number with point between 0 and 100
+// #endregion
+
+// #region Маніпуляції зі строками
+console.log('hello ' + 'world!');
 // hello world!
-const hello = "Hello";
-const world = "World!";
-let greeting = hello + " " + world;
+const hello = 'Hello';
+const world = 'World!';
+let greeting = hello + ' ' + world;
 // Hello World!
 
 // Але якщо такий строк багато це все може бути складно писати, тому використовується...
@@ -407,12 +423,40 @@ greeting = `${hello} ${world}`;
 // Hello World!
 // Але такий запис простіший, тут навіть не потрібно щоб перемінна була строкою
 
-const vasylName = "Vasyl";
-const myCityName = "Chernivtsi";
+let firstName = 'Vasyl';
+let lastName = 'Kaminskyi';
+const myCityName = 'Chernivtsi';
 
-greeting = `Hello, my name is ${vasylName}. i'm living in ${myCityName}.`;
+greeting = `Hello, my name is ${firstName}. i'm living in ${myCityName}.`;
 console.log(greeting);
 
+let resultString;
+// Escaping
+resultString = 'I\'m 28 years old. I like "Star Wars"';
+console.log(resultString);
+
+// Properties and methods
+console.log('Hello!'.length); // 6
+console.log(firstName.concat(lastName)); // VasylKaminskyi
+console.log(firstName.concat(' ', lastName)); // Vasyl Kaminskyi !!!
+console.log(firstName.toUpperCase()) ; // VASYL
+console.log(firstName.toLowerCase()); // vasyl
+console.log(firstName[0]); // V; [1] -> a
+console.log(firstName.indexOf('V')); // 0
+console.log(firstName.indexOf('a')); // 1
+console.log(firstName.lastIndexOf('s')); // 2, видається останній індекс вказаної букви, тобто вибереться остання буква s і виводиться її індекс; якщо символа немає то індекс буде -1
+console.log(firstName.charAt(1)); // 'a'
+console.log(firstName.charAt(firstName.length - 1)); // отримуємо останній символ строки
+console.log(greeting.substring(0, 5)); // Hello , але треба знати що ми витягуємо)). Тут ми знаємо фразу і ми витягнули вказане слово
+console.log(greeting.slice(0, 5)); // Hello
+console.log(greeting.slice(-5)); // vtsi. тобто останні 5 символів, які є по суті в const myCityName = 'Chernivtsi';
+console.log(greeting.split(' ')); // розбиваємо строку, по суті, на масив який розділений вказаним символом
+const colors = 'red, green, blue, purple';
+console.log(colors.split(',')); // [ 'red', ' green', ' blue', ' purple' ]
+console.log('message'.replace('message','yellow')); // yellow -> заміняє то що вказане слово на інше вказане
+console.log(colors.includes('black')) // false -> black там немає; true якщо в рядку є вказане слово
+
+console.log(resultString);
 // #endregion
 
 // #region Функціональні вирази
@@ -537,11 +581,11 @@ setTimeout(() => {
 
 // #region Обробка помилок
 const fnWithError = () => {
-  throw new Error("Something went wrong"); // генеруємо помилку в JS
+  throw new Error('Something went wrong'); // генеруємо помилку в JS
 };
 fnWithError(); // <== в момент виклику функції зупиниться виконання коду
 // out: Uncaught Error: Something went wrong
-console.log("Continue..."); // це ми вже не побачимо через помилку вище
+console.log('Continue...'); // це ми вже не побачимо через помилку вище
 
 // як з цим боротися?
 try {
@@ -551,7 +595,7 @@ try {
 }
 // Приклад:
 const fnWithError2 = () => {
-  throw new Error("Something went wrong"); // генеруємо помилку в JS
+  throw new Error('Something went wrong'); // генеруємо помилку в JS
 };
 try {
   fnWithError2();
@@ -561,7 +605,7 @@ try {
   console.log(error.message);
   // викликаємо тільки повідомлення що є у функції => Something went wrong
 }
-console.log("Continue...");
+console.log('Continue...');
 // виконання коду буде продовжуватися незалежно від помилки
 
 // тобто рекомендовано поміщати блоки коду де очікуються помилки в try catch блок
@@ -580,7 +624,7 @@ let a1; // інструкція, що ми створили перемінну �
 const a2 = 5; // наступна інструкція
 
 if (a > b) {
-  console.log("a is bigger than b");
+  console.log('a is bigger than b');
 }
 // це все також інструкція - виконується дія, що якщо а більше б => виведеться повідомлення про це
 
@@ -592,21 +636,21 @@ for (let i = 0; i < a2; i++) {
 // АЛЕ в JS ";" можна опускати
 
 // Приклад Вираз-інструкції:
-("abc"); // це вираз але ми конвертували її за допомоги ";" в інструкцію
+('abc'); // це вираз але ми конвертували її за допомоги ";" в інструкцію
 // але така інструкція не має значення, так як ми нікуди її не присвоїли
 
 a = a + 3; // знову вираз-інструкція - дія яка повертає значення
 
 c = a + b; // те саме, але треба помітити, що ці перемінні не були об'явлені, розуміючи що це було зроблено раніше
 
-d = "Good " + "Evening"; // об'єднуємо дві строки в одну і присвоюємо в перемінну
+d = 'Good ' + 'Evening'; // об'єднуємо дві строки в одну і присвоюємо в перемінну
 // "Good " + "Evening" - це як інструкція
 //  d = ...щось - це вираз
 // разом вираз-інструкція за допомоги ";"
 
 myFunction(c, d); // це також вираз-інструкція
 
-console.log("Hey!"); // це також вираз-інструкція
+console.log('Hey!'); // це також вираз-інструкція
 
 // АЛЕ в JS ";" можна опускати...
 // то як відрізнити вираз від інструкції?
@@ -659,7 +703,7 @@ myArray.length = 7;
 console.log(myArray[7]); // undefined
 
 // Додавання нових елементів у масив:
-myArray[3] = "abc";
+myArray[3] = 'abc';
 console.log(myArray); // [ 1, 2, 3, 'abc', <3 empty items> ]
 myArray[4] = true;
 console.log(myArray); // [ 1, 2, 3, 'abc', true, <2 empty items> ]
@@ -675,7 +719,7 @@ console.log(myArray.length); // 5, а було 4
 
 // Основні методи:
 myArray3 = [1, 2, 3];
-myArray3.push("name"); // додавання в кінець масиву
+myArray3.push('name'); // додавання в кінець масиву
 let removedElement = myArray3.pop(); // видаляє останній елемент масиву і цей останній елемент можна присвоїти в перемінну
 console.log(removedElement); // 'name'
 myArray3.unshift(removedElement); // додавання елемента в початок масиву => 'name'
@@ -714,7 +758,7 @@ console.log(newArray); // [ 3, 6, 9 ]
 // Destructuring assignment
 
 const userProfile = {
-  name: "Vasyl",
+  name: 'Vasyl',
   commentsQty: 23,
   hasSignedAgreement: false,
 };
@@ -729,7 +773,7 @@ console.log(commentsQty); // 23
 // #endregion
 
 // #region Деструктуризація масивів
-const fruits = ["Apple", "Banana"];
+const fruits = ['Apple', 'Banana'];
 // нові перемінні на основі значень елементів масиву
 const [fruitOne, fruitTwo] = fruits;
 // тут [] дужки, тому що працюємо з масивом
@@ -765,7 +809,7 @@ const newPerson = {
 };
 if (!newPerson.name) {
   // !undefined === true => true !!!!
-  console.log("name is undefined");
+  console.log('name is undefined');
 }
 // якщо в newPerson властивість name !undefined, буде виконана дія в блоці коду (не пуста строка)
 // тобто перевіряється на true, якщо так то виконується блок кода
@@ -791,31 +835,31 @@ const newPerson1 = {
 };
 const { age } = newPerson1;
 if (age >= 18) {
-  console.log("Is Adult");
+  console.log('Is Adult');
 } else if (age >= 12 && age < 18) {
-  console.log("Is Teenager");
+  console.log('Is Teenager');
 } else {
-  console.log("Is Child");
+  console.log('Is Child');
 }
 // АЛЕ це не дуже читабельно, краще щоб було 3 if:
 if (age >= 18) {
-  console.log("is adult");
+  console.log('is adult');
 }
 if (age >= 12 && age < 18) {
-  console.log("is teenager");
+  console.log('is teenager');
 }
 if (age < 12) {
-  console.log("is child");
+  console.log('is child');
 }
 // ніби зручніше читати?)
 
 // Використання IF у функціях
 const sumPositiveNumbers = (a, b) => {
-  if (typeof a !== "number" || typeof b !== "number") {
-    return "One of the arguments is not a number";
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    return 'One of the arguments is not a number';
   }
   if (a <= 0 || b <= 0) {
-    return "Number are not positive";
+    return 'Number are not positive';
   }
   return a + b;
 };
@@ -826,23 +870,23 @@ switch (
   month // значення перемінної порівнюється із..
 ) {
   case 1: // .. тим значенням що тут, і в залежності від значення буде такий то кейс
-    console.log("January");
+    console.log('January');
     break;
   case 2:
-    console.log("February");
+    console.log('February');
     break;
   case 12:
-    console.log("December");
+    console.log('December');
     break;
   default:
-    console.log("This is not a winter month");
+    console.log('This is not a winter month');
 }
 
 // Тернарний оператор
 // Конструкція тернарного оператора це вираз, а вираз завжди повертає значення
 // Example #1
 let value = 11;
-value ? console.log("True value") : console.log("False value"); // output: True value
+value ? console.log('True value') : console.log('False value'); // output: True value
 
 // Example #2
 const value1 = 11;
@@ -854,7 +898,7 @@ let value3 = 12;
 console.log(value3 >= 0 ? value3 : -value3); // output: 12
 
 value = -5;
-let result = value >= 0 ? value : -value;
+result = value >= 0 ? value : -value;
 console.log(result); // output: 5
 
 // #endregion
@@ -874,14 +918,14 @@ for (let i = 0; i < 5; i++) {
 } // з кожною ітерацією число буде збільшуватися на 1; output = 0 1 2 3 4
 
 // Example with array
-let myArray = ["first", "second", "third"];
+let myArray = ['first', 'second', 'third'];
 for (let i = 0; i < myArray.length; i++) {
   console.log(myArray[i]);
 } // output = 'first' => 'second' => 'third'
 // Але так перебирати масив не дуже зручно, не дуже читабельно і можна сильно заплутатися і наробити помилок
 
 // Краще використовувати FOREACH (ТАК рекомендується робити!)
-myArray = ["one", "two", "three"];
+myArray = ['one', 'two', 'three'];
 myArray.forEach((element, index) => {
   console.log(element, index);
 });
@@ -926,7 +970,7 @@ for (key in Object) {
 const myObj = {
   x: 10,
   y: true,
-  z: "abc",
+  z: 'abc',
 };
 for (const key in myObj) {
   console.log(key, myObj[key]);
@@ -940,7 +984,7 @@ Object.values(myObj).forEach((value) => {
   console.log(value);
 }); // output: 10 true abc => просто виведення значення властивостей
 
-myArray = [true, 10, "abc", null];
+myArray = [true, 10, 'abc', null];
 for (const key in myArray) {
   // key - нова перемінна яка приймає індекс масиву
   console.log(myArray[key]);
@@ -953,7 +997,7 @@ for (Element of Iterable) {
   // Дія з певний елементом
 }
 */
-const myString = "Hey";
+const myString = 'Hey';
 
 for (const letter of myString) {
   console.log(letter);
@@ -1003,7 +1047,7 @@ class Comment {
   }
 }
 // екземпляр класу:
-const firstComment = new Comment("First Comment");
+const firstComment = new Comment('First Comment');
 console.table(firstComment); // First Comment 0
 firstComment.upvote(); // 0 + 1
 console.log(firstComment.votesQty); // 1
@@ -1013,14 +1057,14 @@ firstComment instanceof Comment; // true
 firstComment instanceof Object; // true => тому що Object це глобальний клас від якого походять всі інші класи
 
 // перевірка належності властивості екземпляру об'єкту
-firstComment.hasOwnProperty("text"); // true
-firstComment.hasOwnProperty("votesQty"); // true
-firstComment.hasOwnProperty("upvote"); // false => методи будуть тільки так, тому цей метод є тільки в прототипі
-firstComment.hasOwnProperty("hasOwnProperty"); // false => так і тут, цей метод є тільки в глобальному класі
+firstComment.hasOwnProperty('text'); // true
+firstComment.hasOwnProperty('votesQty'); // true
+firstComment.hasOwnProperty('upvote'); // false => методи будуть тільки так, тому цей метод є тільки в прототипі
+firstComment.hasOwnProperty('hasOwnProperty'); // false => так і тут, цей метод є тільки в глобальному класі
 
 // Декілька екземплярів якогось класу:
-const secondComment = new Comment("Second comment");
-const thirdComment = new Comment("Third comment");
+const secondComment = new Comment('Second comment');
+const thirdComment = new Comment('Third comment');
 
 // #region Статичні методи
 Comment.mergeComments(firstComment, secondComment);
@@ -1074,7 +1118,7 @@ myPromise
 })
 */
 
-fetch("https://jsonplaceholder.typicode.com/todos") // створюється проміс в стані pending; ні одна наступна дія не буде виконана поки наш проміс в pending; Якщо стан зміниться то виконається одна з наступних дій
+fetch('https://jsonplaceholder.typicode.com/todos') // створюється проміс в стані pending; ні одна наступна дія не буде виконана поки наш проміс в pending; Якщо стан зміниться то виконається одна з наступних дій
   .then((response) => response.json()) // resolved, але тут через метод json створюється новий проміс (нашу відповідь присвоюємо в response і далі за допомоги функції потрібні нам дані "пакуються в json")
   .then((json) => console.log(json)) // знову resolved, вже попереднього проміса, який повертає об'єкт або масив об'єктів
   .catch((err) => console.log(err)); // rejected, якщо попередні проміси не виконалися
@@ -1088,7 +1132,7 @@ const getData = (url) =>
       .catch((err) => reject(err))
   );
 
-getData("https://jsonplaceholder.typicode.com/todos/4")
+getData('https://jsonplaceholder.typicode.com/todos/4')
   .then((data) => console.log(data))
   .catch((err) => console.log(err.message));
 // #endregion
