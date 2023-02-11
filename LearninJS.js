@@ -331,11 +331,17 @@ setTimeout(printMyName, 2000); // наша функція викличеться
 // 1. Арифметичні оператори:
 // + - * /
 // 2. Порівняння:
-//  === !== <= >=
+// == === !== <= >=
 // 3. Логічні оператори:
 // !(не) &&(і) ||(або)
 // 4. Присвоєння:
 // =
+
+// == порівняння
+// === сурове порівняння, тобто порівнюються типи даних
+console.log(10 == 10) // true
+console.log(10 == '10') // true
+console.log(10 === '10') // false, тому що number != string
 
 // &&:
 // a && b && c && d
@@ -425,7 +431,7 @@ greeting = `${hello} ${world}`;
 
 let firstName = 'Vasyl';
 let lastName = 'Kaminskyi';
-const myCityName = 'Chernivtsi';
+let myCityName = 'Chernivtsi';
 
 greeting = `Hello, my name is ${firstName}. i'm living in ${myCityName}.`;
 console.log(greeting);
@@ -439,7 +445,7 @@ console.log(resultString);
 console.log('Hello!'.length); // 6
 console.log(firstName.concat(lastName)); // VasylKaminskyi
 console.log(firstName.concat(' ', lastName)); // Vasyl Kaminskyi !!!
-console.log(firstName.toUpperCase()) ; // VASYL
+console.log(firstName.toUpperCase()); // VASYL
 console.log(firstName.toLowerCase()); // vasyl
 console.log(firstName[0]); // V; [1] -> a
 console.log(firstName.indexOf('V')); // 0
@@ -448,13 +454,13 @@ console.log(firstName.lastIndexOf('s')); // 2, видається останні
 console.log(firstName.charAt(1)); // 'a'
 console.log(firstName.charAt(firstName.length - 1)); // отримуємо останній символ строки
 console.log(greeting.substring(0, 5)); // Hello , але треба знати що ми витягуємо)). Тут ми знаємо фразу і ми витягнули вказане слово
-console.log(greeting.slice(0, 5)); // Hello
+console.log(greeting.slice(0, 5)); // Hello -> це вивід символів з 0 по 5
 console.log(greeting.slice(-5)); // vtsi. тобто останні 5 символів, які є по суті в const myCityName = 'Chernivtsi';
 console.log(greeting.split(' ')); // розбиваємо строку, по суті, на масив який розділений вказаним символом
 const colors = 'red, green, blue, purple';
 console.log(colors.split(',')); // [ 'red', ' green', ' blue', ' purple' ]
-console.log('message'.replace('message','yellow')); // yellow -> заміняє то що вказане слово на інше вказане
-console.log(colors.includes('black')) // false -> black там немає; true якщо в рядку є вказане слово
+console.log(colors.replace('red', 'yellow')); // заміняє одне вказане слово на інше
+console.log(colors.includes('black')); // false -> black там немає; true якщо в рядку є вказане слово
 
 console.log(resultString);
 // #endregion
