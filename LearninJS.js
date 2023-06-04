@@ -24,6 +24,8 @@ age1 = 28 // можна змінювати перемінні
 //  - null
 //  - undefined
 //  - symbol - з його допомоги створюються унікальні типи
+//  - bigint - цілі числа довільної довжини
+//  - NaN - не число
 
 // 2. ссилочний тип - object - такий об'єкт містить тільки посилання на об"єкт в пам'яті. Таких об'єктів може бути багато і вони можуть вказувати на один і ту ж ділянку пам'яті. При зміні даних в такому об'єкті, вони зміняться у всіх об'єктах.
 
@@ -79,6 +81,168 @@ a = undefined
 // тому даний запис функції кращий у випадку коли мова динамічна
 
 //#endregion
+
+// #region Оператори та послідовність рядків
+// насправді це вбудована функція яка виконує певні дії (все як в С#)
+// є Унарні, Бінарні... Операнди... Оператори...
+// і відповідно є Постфіксний запис, Префіксний, Інфіксний
+
+// все нагадуємо...
+// 1. Арифметичні оператори:
+// + - * /
+// 2. Порівняння:
+// == != === !== <= >=
+// 3. Логічні оператори:
+// !(не) &&(і) ||(або)
+// 4. Присвоєння:
+// =
+// 5. Послідовність рядків
+// \n -> Переніс на новий рядок
+// \t -> Табуляція (як клавіша TAB)
+// \r -> Повернення каретки
+// \b -> Границі слова
+// \f -> Перевід сторінки
+console.log(1 > '1') // false
+console.log(1 < '1') // false
+console.log(1 >= '1') // true
+console.log(1 <= '1') // true
+
+console.log('string\rstring\nstring\bstring\fstring')
+
+// == порівняння (динамічних типів даних)
+// === сурове порівняння, тобто порівнюються статичні типи даних
+console.log(10 == 10) // true
+console.log(10 == '10') // true
+console.log(10 === '10') // false, тому що number != string
+console.log(undefined == null) // true
+console.log(undefined === null) // false
+console.log(0 == false) // true
+console.log(0 === false) // false
+console.log('' == false) // true
+console.log('' === false) // false
+console.log('' == 0) // true
+console.log('' === 0) // false
+console.log('' == null) // false
+console.log('' === null) // false
+console.log('' == undefined) // false
+console.log('' === undefined) // false
+console.log(0 == null) // false
+console.log(0 === null) // false
+console.log(0 == undefined) // false
+console.log(0 === undefined) // false
+console.log(undefined == undefined) // true
+console.log(undefined === undefined) // true
+console.log(-0 == +0) // true
+console.log(-0 === +0) // true
+console.log(NaN == NaN) // false
+console.log(NaN === NaN) // false
+
+// &&:
+// a && b && c && d
+// якщо а false -> закінчення виразу,
+//        true ? -> перевіряє b,
+//        false ? -> закінчення виразу,
+//        true ? -> c,
+//        false ? -> закінчення виразу,
+//        true ? -> d
+//        false ? -> закінчення виразу,
+//        true ? -> закінчення виразу (його виконання)
+// || працює аналогічним способом, але true і false навпаки
+
+// Трюк з "&&" (i)
+let borya = 10
+borya && console.log('executed!')
+// executed!
+let borya2
+borya2 && console.log('executed!')
+// не виконалося бо "borya2" false
+
+// оператор "..."
+const button = {
+  width: 200,
+  text: 'Buy',
+  color: 'black',
+}
+const redButton = {
+  ...button,
+  color: 'red',
+} // створюємо новий об'єкт і додаємо в нього нову властивість, або переписуємо стару.
+
+// якщо властивість "color" вже є у батьківського об'єкта, то значення в новому об'єкті буде перезаписано. Тобто було color: black, а в новому - color: red.
+// це створюється за допомоги оператора "...", так як представлено вище.
+
+console.table(redButton) // вивід в табличному вигляді
+// --------------------------------------------------------------------
+
+const buttonInfo = {
+  text: 'Buy',
+}
+const buttonStyle = {
+  color: 'yellow',
+  width: 200,
+  height: 300,
+}
+// об'єднуємо два об'єкта в один за допомоги "...":
+const button2 = {
+  ...buttonInfo,
+  ...buttonStyle,
+  // так розподіляється порядок зображення властивостей, що перше - ті властивості і будуть першими
+}
+console.table(button2)
+
+// все так як при мутації об'єктів, але ми беремо окремі властивості і додаємо нові або змінюємо старі
+// #endregion
+
+// #region Логічні оператори
+// Це оператори які дозволяють комбінувати оператори порівняння або обирати потрібне значення зі списку
+const userRole = 1
+const adminRole = 2
+const productPrice = 100
+const defaultName = null
+
+const user = userRole
+const userBalance = 1000
+
+// const isAdmin = user === adminRole
+// const canBuy = userBalance >= productPrice
+
+// const result1 = isAdmin === true
+// const result2 = canBuy === true
+
+// const isResultTrue = result1 === result2
+// це все дуже довго...
+
+// || - оператор "або" => "перше позитивне значення"
+const isResultTrue = user === adminRole || userBalance >= productPrice
+const authorName = user || defaultName || 'Author'
+
+// && - оператор "і" => "перше негативне значення"
+const isUser = user === adminRole && userBalance >= productPrice
+
+// ?? - оператор "перше наявне значення" або "значення за замовчуванням"
+const userName = user ?? defaultName ?? 'Author'
+const authorName2 = (user === adminRole && 'Admin') || 'Author'
+
+// ! - оператор "не" => "змінює значення на протилежне"
+const isNotAdmin = !(user === adminRole)
+const authorName3 = !(user === adminRole && 'Admin') || user
+console.log(authorName, 'authorName')
+
+// !! - оператор "перетворення в булевий тип" або "протилежний тип"
+const isUser2 = !!user // тобто інший юзер це "юзер" - true
+
+// Логічні операції присвоєння
+// ||= - оператор "присвоєння за замовчуванням"
+let productTitle = 'Headphones'
+productTitle ||= 'Product' // якщо productTitle не існує, то він створиться і присвоїться значення "Product"
+productTitle = productTitle || 'Product' // те саме, що і вище
+// &&= - оператор "присвоєння за замовчуванням"
+productTitle = 'Product'
+productTitle &&= 'Headphones' // якщо productTitle існує, то він перезапише значення на "Headphones"
+// ??= - оператор "присвоєння за замовчуванням"
+productTitle = null
+productTitle ??= 'Headphones' // якщо productTitle не існує, то він створиться і присвоїться значення "Headphones"
+// #endregion
 
 // #region Об'єкти
 // всі сутності в джаваскріпт це об'єкти
@@ -331,91 +495,6 @@ setTimeout(printMyName, 2000) // наша функція викличеться 
 
 // #endregion
 
-// #region Оператори та послідовність рядків
-// насправді це вбудована функція яка виконує певні дії (все як в С#)
-// є Унарні, Бінарні... Операнди... Оператори...
-// і відповідно є Постфіксний запис, Префіксний, Інфіксний
-
-// все нагадуємо...
-// 1. Арифметичні оператори:
-// + - * /
-// 2. Порівняння:
-// == === !== <= >=
-// 3. Логічні оператори:
-// !(не) &&(і) ||(або)
-// 4. Присвоєння:
-// =
-// 5. Послідовність рядків
-// \n -> Переніс на новий рядок
-// \t -> Табуляція (як клавіша TAB)
-// \r -> Повернення каретки
-// \b -> Границі слова
-// \f -> Перевід сторінки
-
-console.log('string\rstring\nstring\bstring\fstring')
-
-// == порівняння
-// === сурове порівняння, тобто порівнюються типи даних
-console.log(10 == 10) // true
-console.log(10 == '10') // true
-console.log(10 === '10') // false, тому що number != string
-
-// &&:
-// a && b && c && d
-// якщо а false -> закінчення виразу,
-//        true ? -> перевіряє b,
-//        false ? -> закінчення виразу,
-//        true ? -> c,
-//        false ? -> закінчення виразу,
-//        true ? -> d
-//        false ? -> закінчення виразу,
-//        true ? -> закінчення виразу (його виконання)
-// || працює аналогічним способом, але true і false навпаки
-
-// Трюк з "&&" (i)
-let borya = 10
-borya && console.log('executed!')
-// executed!
-let borya2
-borya2 && console.log('executed!')
-// не виконалося бо "borya2" false
-
-// оператор "..."
-const button = {
-  width: 200,
-  text: 'Buy',
-  color: 'black',
-}
-const redButton = {
-  ...button,
-  color: 'red',
-} // створюємо новий об'єкт і додаємо в нього нову властивість, або переписуємо стару.
-
-// якщо властивість "color" вже є у батьківського об'єкта, то значення в новому об'єкті буде перезаписано. Тобто було color: black, а в новому - color: red.
-// це створюється за допомоги оператора "...", так як представлено вище.
-
-console.table(redButton) // вивід в табличному вигляді
-// --------------------------------------------------------------------
-
-const buttonInfo = {
-  text: 'Buy',
-}
-const buttonStyle = {
-  color: 'yellow',
-  width: 200,
-  height: 300,
-}
-// об'єднуємо два об'єкта в один за допомоги "...":
-const button2 = {
-  ...buttonInfo,
-  ...buttonStyle,
-  // так розподіляється порядок зображення властивостей, що перше - ті властивості і будуть першими
-}
-console.table(button2)
-
-// все так як при мутації об'єктів, але ми беремо окремі властивості і додаємо нові або змінюємо старі
-// #endregion
-
 // #region Math object
 let resultMath
 resultMath = Math.min(2, 6, 10, 1000) // 2
@@ -467,7 +546,7 @@ console.log(firstName.toLowerCase()) // vasyl
 console.log(firstName[0]) // V; [1] -> a
 console.log(firstName.indexOf('V')) // 0
 console.log(firstName.indexOf('a')) // 1
-console.log(firstName.lastIndexOf('s')) // 2, видається останній індекс вказаної букви, тобто вибереться остання буква s і виводиться її індекс; якщо символа немає то індекс буде -1
+console.log(firstName.lastIndexOf('s')) // 2, видається останній індекс вказаної букви, тобто вибереться остання буква s і виводиться її індекс; якщо символу немає, то індекс буде -1
 console.log(firstName.charAt(1)) // 'a'
 console.log(firstName.charAt(firstName.length - 1)) // отримуємо останній символ строки
 console.log(greeting.substring(0, 5)) // Hello , але треба знати що ми витягуємо)). Тут ми знаємо фразу і ми витягнули вказане слово
