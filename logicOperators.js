@@ -24,9 +24,9 @@ const user = {
   },
 }
 
-console.log(user?.address?.city) // Lviv
+console.log(user.address?.city) // Lviv
 // перевіряє чи існує такий елемент в об'єкті, якщо ні - повертає undefined, якщо так - повертає значення
-console.log(user?.address?.country) // undefined
+console.log(user.address?.country) // undefined
 console.log(user?.log?.()) // Vasya is 20 years old - викликає функцію, якщо вона існує
 
 // взаємодія з іншими логічними операторами
