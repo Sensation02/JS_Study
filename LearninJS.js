@@ -1409,9 +1409,138 @@ for (const element of myArray) {
 } // output: true 10 abc null => АЛЕ використання forEach для масиву пріоритетний
 
 // FOR OF не для об'єктів! тому що це не ітеративний елемент в JS
-
 // #endregion
+// =====================================================================================
+const PRODUCT_AMOUNT = 6
+const DISCOUNT_ADDITIONAL = 2
+let discountAmount = 1
+let productCount = 0
 
+// while (
+//   productCount <= PRODUCT_AMOUNT &&
+//   DISCOUNT_ADDITIONAL <= 10 &&
+//   discountAmount <= 10
+// ) {
+//   productCount++
+//   if (productCount === 0) {
+//     console.log(`Виберіть товари`)
+//     break
+//   }
+//   if (productCount <= 3) {
+//     console.log(`У вас немає знижки`)
+//   }
+//   if (productCount > 3 && productCount <= 5) {
+//     discountAmount += 2
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+//   if (productCount > 5 && productCount <= 8) {
+//     discountAmount += 2.5
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+//   if (productCount > 8) {
+//     discountAmount += 3
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+
+//   if (DISCOUNT_ADDITIONAL === 0) {
+//     discountAmount += DISCOUNT_ADDITIONAL
+//   }
+// }
+// =====================================================================================
+do {
+  if (productCount === 0) {
+    console.log(`Виберіть товари`)
+  }
+  productCount++
+  if (productCount < 3) {
+    console.log(`У вас немає знижки`)
+  }
+  if (productCount > 3 && productCount <= 5) {
+    discountAmount += 2
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+  if (productCount > 5 && productCount <= 8) {
+    discountAmount += 2.5
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+  if (productCount > 8) {
+    discountAmount += 3
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+} while (
+  productCount <= PRODUCT_AMOUNT &&
+  DISCOUNT_ADDITIONAL <= 10 &&
+  discountAmount <= 10
+)
+// =====================================================================================
+let start = 0
+let goal = 100
+let step = 0
+let set = 8
+let rest = 10
+
+do {
+  if (step === 0) {
+    console.log('Початок тренування')
+  }
+  start++
+  step++
+  if (step % set === 0) {
+    console.log(`Ви виконали ${step / set} підходів`)
+  }
+  if (step % rest === 0) {
+    console.log(`Відпочинок`)
+    continue
+  }
+  if (start === goal / 2) {
+    console.log(`Половина тренування пройдена`)
+  }
+
+  if (step === goal || start === goal) {
+    console.log(`Тренування закінчено`)
+    break
+  }
+} while (start <= goal)
+// =====================================================================================
+age = 25
+let hasExp = true
+let hasEdu = false
+let JS = true
+let HTML = true
+
+form: {
+  if (age >= 18) {
+    if (hasExp) {
+      if (hasEdu || (JS && HTML)) {
+        console.log('Ви прийняті на роботу')
+        break form
+      } else {
+        console.log('Ви не маєте освіти')
+        break form
+      }
+    }
+    if (!hasExp) {
+      console.log('Ви не маєте досвіду')
+      break form
+    }
+  }
+  if (age < 18) {
+    console.log('Ви не можете працювати')
+    break form
+  }
+}
+
+table: for (let i = 1; i < 10; i++) {
+  console.log(`Число ${i} ======================`)
+  for (let j = 1; j < 10; j++) {
+    res = i * j
+    console.log(`${i} * ${j} = ${res}`)
+  }
+  if (i === 9) {
+    console.log('Таблиця множення закінчена')
+    break table
+  }
+}
 // #endregion
 
 // #region Модулі
