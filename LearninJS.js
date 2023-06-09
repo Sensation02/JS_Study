@@ -1,3 +1,5 @@
+const e = require('express')
+
 // #region Перемінні
 let num = 1 // тип перемінної який доступний тільки в межах видимості.
 const NAME = `Bazzil` // тип перемінної як і let який ніколи не зміниться, тому що константа, нові значення в таку перемінну не присвоїти. Константи пишуться великими літерами.
@@ -544,6 +546,567 @@ console.log(object.values(car)) // [`Ford`, 2019, `red`]
 // ===========================================================================
 // #endregion
 
+// #region Умовні інструкції
+// if , if else , switch , тернарний оператор.. ну все як в C#))
+let val = 10
+if (val > 5) {
+  val += 10
+}
+// в дужках перевіряється умова, якщо там true => виконується дія в блоці
+console.log(val) // 20
+
+const newPerson = {
+  age: 20,
+}
+if (!newPerson.name) {
+  // !undefined === true => true !!!!
+  console.log('name is undefined')
+}
+// якщо в newPerson властивість name !undefined, буде виконана дія в блоці коду (не пуста строка)
+// тобто перевіряється на true, якщо так то виконується блок кода
+
+if (val < 5) {
+  val += 10 // цей блок кода якщо true
+} else {
+  val -= 10 // цей блок кода якщо false
+}
+console.log(val) // 0
+
+if (val < 5) {
+  val += 10 // 1 варіант якщо в умові true
+} else if (val > 5) {
+  val -= 10 // 2 варіант якщо 1 варіант був false ; else if може бути безліч
+} else {
+  val = 15 // 3 варіант при false в попередніх варіантах
+}
+console.log(val) // 0
+
+const newPerson1 = {
+  age: 25,
+}
+const { age } = newPerson1
+if (age >= 18) {
+  console.log('Is Adult')
+} else if (age >= 12 && age < 18) {
+  console.log('Is Teenager')
+} else {
+  console.log('Is Child')
+}
+// АЛЕ це не дуже читабельно, краще щоб було 3 if:
+if (age >= 18) {
+  console.log('is adult')
+}
+if (age >= 12 && age < 18) {
+  console.log('is teenager')
+}
+if (age < 12) {
+  console.log('is child')
+}
+// ніби зручніше читати?)
+
+// Використання IF у функціях
+const sumPositiveNumbers = (a, b) => {
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    return 'One of the arguments is not a number'
+  }
+  if (a <= 0 || b <= 0) {
+    return 'Number are not positive'
+  }
+  return a + b
+}
+
+// Switch:
+const month = 2
+switch (
+  month // значення перемінної порівнюється із..
+) {
+  case 1: // .. тим значенням що тут, і в залежності від значення буде такий то кейс
+    console.log('January')
+    break
+  case 2:
+    console.log('February')
+    break
+  case 12:
+    console.log('December')
+    break
+  default:
+    console.log('This is not a winter month')
+}
+
+// Тернарний оператор
+// Конструкція тернарного оператора це вираз, а вираз завжди повертає значення
+// Example #1
+let value = 11
+value ? console.log('True value') : console.log('False value') // output: True value
+
+// Example #2
+const value1 = 11
+const value2 = 22
+value1 && value2 ? console.log(value1, value2) : console.log() // output: value1, value2 (11, 22)
+
+// Example #3
+let value3 = 12
+console.log(value3 >= 0 ? value3 : -value3) // output: 12
+
+value = -5
+result = value >= 0 ? value : -value
+console.log(result) // output: 5
+
+// #endregion
+
+// #region Цикли
+// Типи циклів:
+// - for
+// - for ... in ...
+// - while
+// - do ... while
+// - for ... of ...
+
+// #region FOR:
+// for (початкова інструкція; умова; ітераційна дія) { блок коду який виконується на кожній ітерації }
+for (let i = 0; i < 5; i++) {
+  console.log(i)
+} // з кожною ітерацією число буде збільшуватися на 1; output = 0 1 2 3 4
+
+// Example with array
+myArray = ['first', 'second', 'third']
+for (let i = 0; i < myArray.length; i++) {
+  console.log(myArray[i])
+} // output = 'first' => 'second' => 'third'
+// Але так перебирати масив не дуже зручно, не дуже читабельно і можна сильно заплутатися і наробити помилок
+
+// Краще використовувати FOREACH (ТАК рекомендується робити!)
+myArray = ['one', 'two', 'three']
+myArray.forEach((element, index) => {
+  console.log(element, index)
+})
+// output = one 0, two 1, three 2
+// #endregion
+
+// #region WHILE
+// виконує блок кода поки умова правдива
+// while (умова) { блок кода }
+value = 0
+while (value < 5) {
+  console.log(value)
+  value++
+} // output = 0 1 2 3 4
+// #endregion
+
+// #region DO WHILE
+// цикл виконується один раз, а потім перевіряє умову. Цикл виконується поки умова правдива, якщо не правдива, виконається хоч один раз
+// do { блок кода } while (умова)
+value = 0
+do {
+  console.log(value)
+  value++
+} while (value < 5) // output = 0 1 2 3 4
+
+value = 10
+do {
+  console.log(value)
+  value++
+} while (value < 5) // output = 10
+// Такий цикл добре використовувати коли треба виконати блок кода хоча б раз
+// #endregion
+
+// #region FOR IN
+/* 
+Перебираємо всі властивості об'єкта:
+for (key in Object) {
+  // Дія з кожною властивістю об'єкт
+  // Значення властивості - Object[key] 
+} 
+*/
+const myObj = {
+  x: 10,
+  y: true,
+  z: 'abc',
+}
+for (const key in myObj) {
+  console.log(key, myObj[key])
+} // output: x 10 y true z abc => ключ - значення властивості
+
+Object.keys(myObj).forEach((key) => {
+  console.log(key, myObj[key])
+}) // output: x 10 y true z abc => тобто те саме, але подається як масив з іменами властивостей
+
+Object.values(myObj).forEach((value) => {
+  console.log(value)
+}) // output: 10 true abc => просто виведення значення властивостей
+
+myArray = [true, 10, 'abc', null]
+for (const key in myArray) {
+  // key - нова перемінна яка приймає індекс масиву
+  console.log(myArray[key])
+} // output: true 10 abc null => АЛЕ так не рекомендується, тому що масив має свої методи
+// #endregion
+
+// #region FOR OF
+/* 
+for (Element of Iterable) {
+  // Дія з певний елементом
+}
+*/
+const myString = 'Hey'
+
+for (const letter of myString) {
+  console.log(letter)
+} // output: H e y
+
+for (const element of myArray) {
+  console.log(element)
+} // output: true 10 abc null => АЛЕ використання forEach для масиву пріоритетний
+
+// FOR OF не для об'єктів! тому що це не ітеративний елемент в JS
+// #endregion
+// =====================================================================================
+const PRODUCT_AMOUNT = 6
+const DISCOUNT_ADDITIONAL = 2
+let discountAmount = 1
+let productCount = 0
+
+// while (
+//   productCount <= PRODUCT_AMOUNT &&
+//   DISCOUNT_ADDITIONAL <= 10 &&
+//   discountAmount <= 10
+// ) {
+//   productCount++
+//   if (productCount === 0) {
+//     console.log(`Виберіть товари`)
+//     break
+//   }
+//   if (productCount <= 3) {
+//     console.log(`У вас немає знижки`)
+//   }
+//   if (productCount > 3 && productCount <= 5) {
+//     discountAmount += 2
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+//   if (productCount > 5 && productCount <= 8) {
+//     discountAmount += 2.5
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+//   if (productCount > 8) {
+//     discountAmount += 3
+//     console.log(`Ваша знижка: ${discountAmount}%`)
+//   }
+
+//   if (DISCOUNT_ADDITIONAL === 0) {
+//     discountAmount += DISCOUNT_ADDITIONAL
+//   }
+// }
+// =====================================================================================
+do {
+  if (productCount === 0) {
+    console.log(`Виберіть товари`)
+  }
+  productCount++
+  if (productCount < 3) {
+    console.log(`У вас немає знижки`)
+  }
+  if (productCount > 3 && productCount <= 5) {
+    discountAmount += 2
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+  if (productCount > 5 && productCount <= 8) {
+    discountAmount += 2.5
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+  if (productCount > 8) {
+    discountAmount += 3
+    console.log(`Ваша знижка: ${discountAmount}%`)
+  }
+} while (
+  productCount <= PRODUCT_AMOUNT &&
+  DISCOUNT_ADDITIONAL <= 10 &&
+  discountAmount <= 10
+)
+// =====================================================================================
+let start = 0
+let goal = 100
+let step = 0
+let set = 8
+let rest = 10
+
+do {
+  if (step === 0) {
+    console.log('Початок тренування')
+  }
+  start++
+  step++
+  if (step % set === 0) {
+    console.log(`Ви виконали ${step / set} підходів`)
+  }
+  if (step % rest === 0) {
+    console.log(`Відпочинок`)
+    continue
+  }
+  if (start === goal / 2) {
+    console.log(`Половина тренування пройдена`)
+  }
+
+  if (step === goal || start === goal) {
+    console.log(`Тренування закінчено`)
+    break
+  }
+} while (start <= goal)
+// =====================================================================================
+age = 25
+let hasExp = true
+let hasEdu = false
+let JS = true
+let HTML = true
+
+form: {
+  if (age >= 18) {
+    if (hasExp) {
+      if (hasEdu || (JS && HTML)) {
+        console.log('Ви прийняті на роботу')
+        break form
+      } else {
+        console.log('Ви не маєте освіти')
+        break form
+      }
+    }
+    if (!hasExp) {
+      console.log('Ви не маєте досвіду')
+      break form
+    }
+  }
+  if (age < 18) {
+    console.log('Ви не можете працювати')
+    break form
+  }
+}
+
+table: for (let i = 1; i < 10; i++) {
+  console.log(`Число ${i} ======================`)
+  for (let j = 1; j < 10; j++) {
+    res = i * j
+    console.log(`${i} * ${j} = ${res}`)
+  }
+  if (i === 9) {
+    console.log('Таблиця множення закінчена')
+    break table
+  }
+}
+// #endregion
+
+// #region Функції
+// це блок кода який можна використовувати багаторазово (як метод в C#)
+let number1 = 10
+let number2 = 20
+let number3 = number1 + number2
+console.log(number3) //30
+// але рекомендується уникати повтору кода
+
+number1 = 5
+number2 = 10
+
+function sum(number1, number2) {
+  const result = number1 + number2
+  console.log(result)
+}
+sum(number1, number2) // 15
+
+number1 = 8
+number2 = 5
+sum(number1, number2) // 13
+// --------------------------------------------------------------------------------
+// Функція може бути:
+// - названа
+// - присвоєна в перемінну
+// - анонімною
+// - може бути аргументом при виклику іншої функції
+// - властивістю об'єкта (може бути методом)
+
+// функція - це об'єкт і як в будь якого об'єкта в неї є властивості
+function myFn(num1, num2) {
+  let res
+  num1 += 1
+  res = num1 + num2
+  return res
+}
+// якщо в кінці функції немає return вона буде повертати UNDEFINED
+
+console.log(myFn(10, 10)) // 21
+
+// передача значення за посиланням:
+function increasePersonAge(person) {
+  person.age += 1
+  return person
+}
+increasePersonAge(person)
+console.log(person.age) // 23
+// тобто ми мутуємо об'єкт всередину функції (передали об'єкт за посиланням)
+// це НЕ рекомендується робити!!!!!!!!
+// А що робити якщо це треба зробити?
+
+const personOne = {
+  name: 'Michael',
+  age: 25,
+}
+
+function increasePersonAge(person) {
+  const updatePerson = Object.assign({}, person) // новий об'єкт який ми змінюємо
+  updatePerson.age += 1
+  return updatePerson
+}
+
+const updatePersonOne = increasePersonAge(personOne)
+console.log(personOne.age) // 25
+console.log(updatePersonOne.age) // 26
+// АЛЕ треба врахувати чи є вкладеність об'єктів в об'єкт
+// ==================================================================================
+function calcSpace(amount, unit = 'px') {
+  return `${amount * 4}${unit}`
+}
+console.log(calcSpace(4, 'px')) // 16px
+console.log(calcSpace(2)) // 8px
+console.log(calcSpace(2, 'em')) // 8em
+// --------------------------------------------------------------------------------
+function reloadData(amount) {
+  if (amount <= 0) {
+    console.log('Недостатньо даних')
+    reloadData(amount - 1)
+  } else {
+    console.log('Завантаження даних')
+  }
+}
+reloadData(1) // Завантаження даних
+// --------------------------------------------------------------------------------
+function pauseStopByTrack(trackName) {
+  let originTrackName = trackName
+  return function pauseStop() {
+    console.log(`${originTrackName} зупинено`)
+  }
+}
+const pauseStopNew = pauseStopByTrack('Track 1')
+pauseStopNew() // Track 1 зупинено
+// --------------------------------------------------------------------------------\
+// функціональний вираз
+const runCommand = function (command, errorFn) {
+  const result = command()
+
+  if (!result) {
+    return errorFn()
+  }
+}
+runCommand(
+  function () {
+    console.log('Запуск команди')
+    return 1 - 1
+  },
+  function () {
+    console.log('Помилка запуску команди')
+  },
+)
+// --------------------------------------------------------------------------------
+// стрілочна функція
+const sum = (num1, num2) => {
+  const result = num1 + num2
+  return result
+}
+console.log(sum(10, 10)) // 20
+// --------------------------------------------------------------------------------
+// стрілочна функція без фігурних дужок
+const sum = (num1, num2) => num1 + num2
+console.log(sum(10, 10)) // 20
+// --------------------------------------------------------------------------------
+// каррірована функція (функція яка повертає функцію)
+const sum = (num1) => (num2) => num1 + num2
+console.log(sum(10)(10)) // 20
+// --------------------------------------------------------------------------------
+// Мемоізація - це збереження результатів виконання функції для певного набору аргументів
+function memoize(fn) {
+  // функція яка приймає функцію
+  const cache = {} // кеш для зберігання результатів
+  return (arg) => {
+    // повертаємо функцію
+    if (arg in cache) {
+      // якщо аргумент є в кеші
+      return cache[arg] // повертаємо результат з кешу
+    } else {
+      // якщо аргументу немає в кеші
+      const result = fn(arg) // виконуємо функцію з аргументом
+      cache[arg] = result // зберігаємо результат в кеш
+      return result // повертаємо результат
+    }
+  }
+}
+const memoizedSum = memoize(sum) // мемоізована функція sum (цю функцію ми записували раніше, а тепер ми її можемо використовувати з кешу)
+console.log(memoizedSum(10, 10)) // 20
+
+const decrement = (num1, num2) => num1 - num2 // функція яку ми хочемо мемоізувати
+const memoizedDecrement = memoize(decrement) // мемоізована функція decrement
+console.log(memoizedDecrement(10, 5)) // 5 - виконується функція decrement
+
+// в даному випадку ми зберігаємо результати виконання функції. Тобто якщо ми викликаємо функцію з одним і тим же аргументом, то ми будемо отримувати результат з кешу, а не виконувати функцію знову
+
+const memoCalcSpace = memoize(calcSpace) // мемоізована функція calcSpace
+memoCalcSpace(4, 'px') // 16px
+// або можна написати ще так, через JSON:
+function memoize(fn) {
+  const cache = {}
+  return function () {
+    const key = JSON.stringify(arguments) // створюємо ключ з аргументів
+    if (key in cache) {
+      return cache[key] // повертаємо результат з кешу
+    } else {
+      const result = fn.apply(this, arguments) // виконуємо функцію з аргументами
+      cache[key] = result
+      return result
+    }
+  }
+}
+const spaceSmall = memoCalcSpace(2, 'px') // 8px
+const spaceMedium = memoCalcSpace(4, 'px') // 16px
+const spaceLarge = memoCalcSpace(6, 'px') // 24px
+// так ми зберігаємо результати виконання функції для певного набору аргументів. І кожний раз ми не створюємо нову функцію, а використовуємо збережені результати
+// --------------------------------------------------------------------------------
+// Композиція функцій - це коли результат виконання однієї функції передається в якості аргумента в іншу функцію
+function compose(fn1, fn2) {
+  // функція яка приймає дві функції
+  return function (arg) {
+    // повертаємо функцію
+    return fn2(fn1(arg)) // виконуємо функції відповідно до порядку
+  }
+}
+// або такий приклад:
+const getSpaceFromDesign = (componentName) => {
+  switch (componentName) {
+    case 'button':
+      return '16px'
+    case 'input':
+      return '8px'
+    case 'label':
+      return '4px'
+    default:
+      return '0px'
+  }
+}
+
+const calcSpace = (multiplier, unit) => (componentName) => {
+  const spaceFromDesign = getSpaceFromDesign(componentName)
+  return `${multiplier * parseInt(spaceFromDesign)}${unit}` // тут ми використовуємо результат з "на скільки множимо" * "розмір з дизайну" та "в яких одиницях"
+}
+
+const calcSpaceForButton = calcSpace(4, 'px')('button') // 64px - 4 * 16px (розмір з дизайну)
+console.log(calcSpaceForButton)
+const calcSpaceForInput = calcSpace(2, 'px')('input') // 16px - 2 * 8px (розмір з дизайну)
+console.log(calcSpaceForInput)
+const calcSpaceForLabel = calcSpace(1, 'px')('label') // 4px - 1 * 4px (розмір з дизайну)
+console.log(calcSpaceForLabel)
+// і так далі
+// або
+const calcSpaceFromDesign = (componentName) => {
+  const result = getSpaceFromDesign(componentName)
+  return calcSpace(isMobile ? result / 2 : result, 'px')
+}
+console.log(calcSpaceFromDesign('button'))
+// #endregion
+
 // #region Об'єкти
 // всі сутності в джаваскріпт це об'єкти
 const myCity = {
@@ -702,73 +1265,6 @@ person5.name = 'Bob'
 console.log(person.name) // 'John'
 console.log(person5.name) // 'Bob'
 // І такий варіант кращий якщо є вкладені об'єкти
-// #endregion
-
-// #region Функції
-// це блок кода який можна використовувати багаторазово (як метод в C#)
-let number1 = 10
-let number2 = 20
-let number3 = number1 + number2
-console.log(number3) //30
-// але рекомендується уникати повтору кода
-
-number1 = 5
-number2 = 10
-
-function sum(number1, number2) {
-  const result = number1 + number2
-  console.log(result)
-}
-sum(number1, number2) // 15
-
-number1 = 8
-number2 = 5
-sum(number1, number2) // 13
-// --------------------------------------------------------------------------------
-// Функція може бути:
-// - названа
-// - присвоєна в перемінну
-// - анонімною
-// - може бути аргументом при виклику іншої функції
-// - властивістю об'єкта (може бути методом)
-
-// функція - це об'єкт і як в будь якого об'єкта в неї є властивості
-function myFn(num1, num2) {
-  let res
-  num1 += 1
-  res = num1 + num2
-  return res
-}
-// якщо в кінці функції немає return вона буде повертати UNDEFINED
-
-console.log(myFn(10, 10)) // 21
-
-// передача значення за посиланням:
-function increasePersonAge(person) {
-  person.age += 1
-  return person
-}
-increasePersonAge(person)
-console.log(person.age) // 23
-// тобто ми мутуємо об'єкт всередину функції (передали об'єкт за посиланням)
-// це НЕ рекомендується робити!!!!!!!!
-// А що робити якщо це треба зробити?
-
-const personOne = {
-  name: 'Michael',
-  age: 25,
-}
-
-function increasePersonAge(person) {
-  const updatePerson = Object.assign({}, person) // новий об'єкт який ми змінюємо
-  updatePerson.age += 1
-  return updatePerson
-}
-
-const updatePersonOne = increasePersonAge(personOne)
-console.log(personOne.age) // 25
-console.log(updatePersonOne.age) // 26
-// АЛЕ треба врахувати чи є вкладеність об'єктів в об'єкт
 // #endregion
 
 // #region Колбек функції
@@ -1194,353 +1690,6 @@ const userInfo = ({ name, commentsQty }) => {
 }
 // тобто відбувається деструктуризація властивостей об'єкта в функції. Іншими словами в функцію в якості параметрів ми вносимо створення нових перемінних, надаємо їм дані з нашого об'єкта і виконуємо над ними дію. Такі перемінні будуть видимі тільки в тілі функції
 console.log(userInfo(userProfile)) // User Vasyl has 23 comments
-// #endregion
-
-// #region Умовні інструкції
-// if , if else , switch , тернарний оператор.. ну все як в C#))
-let val = 10
-if (val > 5) {
-  val += 10
-}
-// в дужках перевіряється умова, якщо там true => виконується дія в блоці
-console.log(val) // 20
-
-const newPerson = {
-  age: 20,
-}
-if (!newPerson.name) {
-  // !undefined === true => true !!!!
-  console.log('name is undefined')
-}
-// якщо в newPerson властивість name !undefined, буде виконана дія в блоці коду (не пуста строка)
-// тобто перевіряється на true, якщо так то виконується блок кода
-
-if (val < 5) {
-  val += 10 // цей блок кода якщо true
-} else {
-  val -= 10 // цей блок кода якщо false
-}
-console.log(val) // 0
-
-if (val < 5) {
-  val += 10 // 1 варіант якщо в умові true
-} else if (val > 5) {
-  val -= 10 // 2 варіант якщо 1 варіант був false ; else if може бути безліч
-} else {
-  val = 15 // 3 варіант при false в попередніх варіантах
-}
-console.log(val) // 0
-
-const newPerson1 = {
-  age: 25,
-}
-const { age } = newPerson1
-if (age >= 18) {
-  console.log('Is Adult')
-} else if (age >= 12 && age < 18) {
-  console.log('Is Teenager')
-} else {
-  console.log('Is Child')
-}
-// АЛЕ це не дуже читабельно, краще щоб було 3 if:
-if (age >= 18) {
-  console.log('is adult')
-}
-if (age >= 12 && age < 18) {
-  console.log('is teenager')
-}
-if (age < 12) {
-  console.log('is child')
-}
-// ніби зручніше читати?)
-
-// Використання IF у функціях
-const sumPositiveNumbers = (a, b) => {
-  if (typeof a !== 'number' || typeof b !== 'number') {
-    return 'One of the arguments is not a number'
-  }
-  if (a <= 0 || b <= 0) {
-    return 'Number are not positive'
-  }
-  return a + b
-}
-
-// Switch:
-const month = 2
-switch (
-  month // значення перемінної порівнюється із..
-) {
-  case 1: // .. тим значенням що тут, і в залежності від значення буде такий то кейс
-    console.log('January')
-    break
-  case 2:
-    console.log('February')
-    break
-  case 12:
-    console.log('December')
-    break
-  default:
-    console.log('This is not a winter month')
-}
-
-// Тернарний оператор
-// Конструкція тернарного оператора це вираз, а вираз завжди повертає значення
-// Example #1
-let value = 11
-value ? console.log('True value') : console.log('False value') // output: True value
-
-// Example #2
-const value1 = 11
-const value2 = 22
-value1 && value2 ? console.log(value1, value2) : console.log() // output: value1, value2 (11, 22)
-
-// Example #3
-let value3 = 12
-console.log(value3 >= 0 ? value3 : -value3) // output: 12
-
-value = -5
-result = value >= 0 ? value : -value
-console.log(result) // output: 5
-
-// #endregion
-
-// #region Цикли
-// Типи циклів:
-// - for
-// - for ... in ...
-// - while
-// - do ... while
-// - for ... of ...
-
-// #region FOR:
-// for (початкова інструкція; умова; ітераційна дія) { блок коду який виконується на кожній ітерації }
-for (let i = 0; i < 5; i++) {
-  console.log(i)
-} // з кожною ітерацією число буде збільшуватися на 1; output = 0 1 2 3 4
-
-// Example with array
-let myArray = ['first', 'second', 'third']
-for (let i = 0; i < myArray.length; i++) {
-  console.log(myArray[i])
-} // output = 'first' => 'second' => 'third'
-// Але так перебирати масив не дуже зручно, не дуже читабельно і можна сильно заплутатися і наробити помилок
-
-// Краще використовувати FOREACH (ТАК рекомендується робити!)
-myArray = ['one', 'two', 'three']
-myArray.forEach((element, index) => {
-  console.log(element, index)
-})
-// output = one 0, two 1, three 2
-// #endregion
-
-// #region WHILE
-// виконує блок кода поки умова правдива
-// while (умова) { блок кода }
-value = 0
-while (value < 5) {
-  console.log(value)
-  value++
-} // output = 0 1 2 3 4
-// #endregion
-
-// #region DO WHILE
-// цикл виконується один раз, а потім перевіряє умову. Цикл виконується поки умова правдива, якщо не правдива, виконається хоч один раз
-// do { блок кода } while (умова)
-value = 0
-do {
-  console.log(value)
-  value++
-} while (value < 5) // output = 0 1 2 3 4
-
-value = 10
-do {
-  console.log(value)
-  value++
-} while (value < 5) // output = 10
-// Такий цикл добре використовувати коли треба виконати блок кода хоча б раз
-// #endregion
-
-// #region FOR IN
-/* 
-Перебираємо всі властивості об'єкта:
-for (key in Object) {
-  // Дія з кожною властивістю об'єкт
-  // Значення властивості - Object[key] 
-} 
-*/
-const myObj = {
-  x: 10,
-  y: true,
-  z: 'abc',
-}
-for (const key in myObj) {
-  console.log(key, myObj[key])
-} // output: x 10 y true z abc => ключ - значення властивості
-
-Object.keys(myObj).forEach((key) => {
-  console.log(key, myObj[key])
-}) // output: x 10 y true z abc => тобто те саме, але подається як масив з іменами властивостей
-
-Object.values(myObj).forEach((value) => {
-  console.log(value)
-}) // output: 10 true abc => просто виведення значення властивостей
-
-myArray = [true, 10, 'abc', null]
-for (const key in myArray) {
-  // key - нова перемінна яка приймає індекс масиву
-  console.log(myArray[key])
-} // output: true 10 abc null => АЛЕ так не рекомендується, тому що масив має свої методи
-// #endregion
-
-// #region FOR OF
-/* 
-for (Element of Iterable) {
-  // Дія з певний елементом
-}
-*/
-const myString = 'Hey'
-
-for (const letter of myString) {
-  console.log(letter)
-} // output: H e y
-
-for (const element of myArray) {
-  console.log(element)
-} // output: true 10 abc null => АЛЕ використання forEach для масиву пріоритетний
-
-// FOR OF не для об'єктів! тому що це не ітеративний елемент в JS
-// #endregion
-// =====================================================================================
-const PRODUCT_AMOUNT = 6
-const DISCOUNT_ADDITIONAL = 2
-let discountAmount = 1
-let productCount = 0
-
-// while (
-//   productCount <= PRODUCT_AMOUNT &&
-//   DISCOUNT_ADDITIONAL <= 10 &&
-//   discountAmount <= 10
-// ) {
-//   productCount++
-//   if (productCount === 0) {
-//     console.log(`Виберіть товари`)
-//     break
-//   }
-//   if (productCount <= 3) {
-//     console.log(`У вас немає знижки`)
-//   }
-//   if (productCount > 3 && productCount <= 5) {
-//     discountAmount += 2
-//     console.log(`Ваша знижка: ${discountAmount}%`)
-//   }
-//   if (productCount > 5 && productCount <= 8) {
-//     discountAmount += 2.5
-//     console.log(`Ваша знижка: ${discountAmount}%`)
-//   }
-//   if (productCount > 8) {
-//     discountAmount += 3
-//     console.log(`Ваша знижка: ${discountAmount}%`)
-//   }
-
-//   if (DISCOUNT_ADDITIONAL === 0) {
-//     discountAmount += DISCOUNT_ADDITIONAL
-//   }
-// }
-// =====================================================================================
-do {
-  if (productCount === 0) {
-    console.log(`Виберіть товари`)
-  }
-  productCount++
-  if (productCount < 3) {
-    console.log(`У вас немає знижки`)
-  }
-  if (productCount > 3 && productCount <= 5) {
-    discountAmount += 2
-    console.log(`Ваша знижка: ${discountAmount}%`)
-  }
-  if (productCount > 5 && productCount <= 8) {
-    discountAmount += 2.5
-    console.log(`Ваша знижка: ${discountAmount}%`)
-  }
-  if (productCount > 8) {
-    discountAmount += 3
-    console.log(`Ваша знижка: ${discountAmount}%`)
-  }
-} while (
-  productCount <= PRODUCT_AMOUNT &&
-  DISCOUNT_ADDITIONAL <= 10 &&
-  discountAmount <= 10
-)
-// =====================================================================================
-let start = 0
-let goal = 100
-let step = 0
-let set = 8
-let rest = 10
-
-do {
-  if (step === 0) {
-    console.log('Початок тренування')
-  }
-  start++
-  step++
-  if (step % set === 0) {
-    console.log(`Ви виконали ${step / set} підходів`)
-  }
-  if (step % rest === 0) {
-    console.log(`Відпочинок`)
-    continue
-  }
-  if (start === goal / 2) {
-    console.log(`Половина тренування пройдена`)
-  }
-
-  if (step === goal || start === goal) {
-    console.log(`Тренування закінчено`)
-    break
-  }
-} while (start <= goal)
-// =====================================================================================
-age = 25
-let hasExp = true
-let hasEdu = false
-let JS = true
-let HTML = true
-
-form: {
-  if (age >= 18) {
-    if (hasExp) {
-      if (hasEdu || (JS && HTML)) {
-        console.log('Ви прийняті на роботу')
-        break form
-      } else {
-        console.log('Ви не маєте освіти')
-        break form
-      }
-    }
-    if (!hasExp) {
-      console.log('Ви не маєте досвіду')
-      break form
-    }
-  }
-  if (age < 18) {
-    console.log('Ви не можете працювати')
-    break form
-  }
-}
-
-table: for (let i = 1; i < 10; i++) {
-  console.log(`Число ${i} ======================`)
-  for (let j = 1; j < 10; j++) {
-    res = i * j
-    console.log(`${i} * ${j} = ${res}`)
-  }
-  if (i === 9) {
-    console.log('Таблиця множення закінчена')
-    break table
-  }
-}
 // #endregion
 
 // #region Модулі
