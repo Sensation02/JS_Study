@@ -920,6 +920,8 @@ sum(number1, number2) // 13
 // - анонімною
 // - може бути аргументом при виклику іншої функції
 // - властивістю об'єкта (може бути методом)
+// - може бути карірованою (функція яка повертає функцію)
+// - також є мемоізація (кешування результатів функції)
 
 // функція - це об'єкт і як в будь якого об'єкта в неї є властивості
 function myFn(num1, num2) {
@@ -1105,6 +1107,213 @@ const calcSpaceFromDesign = (componentName) => {
   return calcSpace(isMobile ? result / 2 : result, 'px')
 }
 console.log(calcSpaceFromDesign('button'))
+// #endregion
+
+// #region Вбудовані функції
+// eval - виконує код який передається в рядку
+const result = eval('2 + 2') // 4
+console.log(result)
+
+let numA = 1 + 2
+eval(numA) // 3
+// --------------------------------------------------------------------------------
+// isFinite - перевіряє чи є число скінченним
+console.log(isFinite(Infinity)) // false
+console.log(isFinite(NaN)) // false
+console.log(isFinite(123)) // true
+console.log(isFinite(0)) // true
+
+function calcScreenRatio(width, height) {
+  return width / height
+}
+console.log(calcScreenRatio(1920, 1080)) // 1.7777777777777777
+console.log(calcScreenRatio(1280, 0)) // Infinity
+
+function calcScreenRatio(width, height) {
+  let result = width / height
+  return isFinite(result) ? result : 0
+}
+console.log(calcScreenRatio(1920, 1080)) // true
+console.log(calcScreenRatio(1280, 0)) // false
+// --------------------------------------------------------------------------------
+// isNaN - перевіряє чи є число не числом
+console.log(isNaN(NaN)) // true
+console.log(isNaN(Infinity)) // false
+console.log(isNaN(123)) // false
+
+function calcScreenRatio(width, height) {
+  let result = width / height
+  if (isNaN(result)) {
+    return 'Error'
+  } else if (!isFinite(result)) {
+    return result
+  } else {
+    return result
+  }
+}
+console.log(calcScreenRatio(1920, 1080)) // 1.7777777777777777
+console.log(calcScreenRatio(1280, null)) // Error
+console.log(calcScreenRatio(1280, 0)) // Infinity
+// --------------------------------------------------------------------------------
+// parseInt - перетворює рядок в число
+console.log(parseInt('123')) // 123
+console.log(parseInt('123px')) // 123
+console.log(parseInt('123.123')) // 123
+
+function calcScreenRatio(width, height) {
+  w = parseInt(width)
+  h = parseInt(height)
+  let result = w / h
+  // тут ми перетворюємо результат в число, але краще щоб це було parseFloat
+
+  if (isNaN(result)) {
+    return 'Error'
+  } else if (!isFinite(result)) {
+    return result
+  } else {
+    return result
+  }
+}
+console.log(calcScreenRatio('1920px', '1080px')) // 1.7777777777777777
+// перетворення на двійкову систему числення
+console.log(parseInt('11', 2)) // 3
+console.log(parseInt('100', 2)) // 4
+console.log(parseInt('1000', 2)) // 8
+console.log(parseInt('10000', 2)) // 16 тощо
+// --------------------------------------------------------------------------------
+// parseFloat - перетворює рядок в число з плаваючою точкою
+console.log(parseFloat('123')) // 123
+console.log(parseFloat('123px')) // 123
+console.log(parseFloat('123.123')) // 123.123
+// у двійкову систему числення не перетворює
+// --------------------------------------------------------------------------------
+// URI - перетворює рядок в URI
+const uri = 'https://www.google.com/search?q=javascript'
+console.log(encodeURI(uri)) // https://www.google.com/search?q=javascript
+console.log(encodeURIComponent(uri)) // https%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Djavascript
+
+const domain = 'it-brains.com.ua'
+function redirectToPath(path) {
+  path = encodeURIComponent(path)
+  return `https://${domain}/${path}`
+}
+console.log(redirectToPath('javascript')) // https://it-brains.com.ua/javascript
+// --------------------------------------------------------------------------------
+// decodeURI - перетворює URI в рядок
+const decodeUri = 'https%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Djavascript'
+console.log(decodeURI(decodeUri)) // https%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Djavascript
+console.log(decodeURIComponent(decodeUri)) // https://www.google.com/search?q=javascript
+// --------------------------------------------------------------------------------
+
+// #endregion
+
+// #region Вбудовані числові функції
+// Вбудований конструктор Number
+const newNum = new Number(123)
+console.log(newNum) // Number {123}
+// в ньому є свої властивості і методи
+newNum.valueOf() // 123
+newNum.toString() // `123`
+newNum.toFixed(2) // `123.00`
+// --------------------------------------------------------------------------------
+// EPSILON - властивість яка визначає точність числа
+let newNum2 = 0.1
+let newNum3 = 0.3
+if (newNum2.EPSILON === newNum3.EPSILON) {
+  ;('Numbers are equal')
+} else {
+  ;('Numbers are not equal')
+}
+console.log(newNum2 + newNum3 < Number.EPSILON) // false
+console.log(newNum2 + newNum3 < Number.EPSILON.toFixed(2)) // true
+// --------------------------------------------------------------------------------
+// MAX_SAFE_INTEGER - властивість яка визначає максимальне безпечне число
+console.log(Number.MAX_SAFE_INTEGER) // 9007199254740991
+// --------------------------------------------------------------------------------
+// MIN_SAFE_INTEGER - властивість яка визначає мінімальне безпечне число
+console.log(Number.MIN_SAFE_INTEGER) // -9007199254740991
+// це все добре використовувати щоб обмежити введення користувача (наприклад)
+// --------------------------------------------------------------------------------
+// isSafeInteger - перевіряє чи є число безпечним і враховує MAX_SAFE_INTEGER та MIN_SAFE_INTEGER
+console.log(Number.isSafeInteger(123)) // true
+console.log(Number.isSafeInteger(9007199254740991)) // true
+console.log(Number.isSafeInteger(9007199254740992)) // false
+// --------------------------------------------------------------------------------
+// toFixed - метод який визначає кількість знаків після коми
+console.log((1.2345).toFixed(2)) // 1.23
+console.log((1.2345).toFixed(3)) // 1.235
+console.log((1.2345).toFixed(4)) // 1.2345
+// --------------------------------------------------------------------------------
+// MAX_VALUE - властивість яка визначає максимальне число
+console.log(Number.MAX_VALUE) // 1.7976931348623157e+308
+function divide(a, b) {
+  if (a / b === Number.MAX_VALUE) {
+    return 'Max value reached'
+  } else {
+    return a / b
+  }
+}
+console.log(divide(1, 1)) // 1
+console.log(divide(1, 0)) // Infinity
+console.log(divide(1, 1e-323)) // Max value reached
+// --------------------------------------------------------------------------------
+// MIN_VALUE - властивість яка визначає мінімальне число
+console.log(Number.MIN_VALUE) // 5e-324
+console.log(divide(1, 1e-324)) // 0
+console.log(divide(1, 1e-325)) // 1.0000000000000002e+323
+// --------------------------------------------------------------------------------
+// POSITIVE_INFINITY - властивість яка визначає нескінченність\
+console.log(Number.POSITIVE_INFINITY) // Infinity
+// --------------------------------------------------------------------------------
+// NEGATIVE_INFINITY - властивість яка визначає від'ємну нескінченність
+console.log(Number.NEGATIVE_INFINITY) // -Infinity
+// --------------------------------------------------------------------------------
+// isInteger - перевіряє чи є число цілим
+console.log(Number.isInteger(123)) // true
+console.log(Number.isInteger(123.123)) // false
+console.log(newNum2.isInteger()) // false
+console.log(newNum2.toFixed(0).isInteger()) // true
+console.log(newNum.isInteger()) // true
+
+function reviewNumber(num) {
+  if (isNaN(num)) {
+    return console.log('Is not a number')
+  } else if (!num && num !== 0) {
+    return console.log('Please enter a number')
+  } else if (!Number.isInteger(num)) {
+    return console.log('Please enter an integer')
+  } else {
+    return console.log("It's number")
+  }
+}
+reviewNumber(123) // It's number
+reviewNumber(123.123) // Please enter an integer
+reviewNumber('123') // Please enter a number
+reviewNumber('abc') // Is not a number
+// --------------------------------------------------------------------------------
+// isFinite - перевіряє чи є число скінченним
+console.log(Number.isFinite(123)) // true
+console.log(Number.isFinite(123.123)) // true
+console.log(Number.isFinite(Infinity)) // false
+console.log(Number.isFinite(-Infinity)) // false
+console.log(Number.isFinite(NaN)) // false
+console.log(Number.isFinite('123')) // false
+// --------------------------------------------------------------------------------
+// toExponential - перетворює число в експоненціальний запис
+console.log(newNum2.toExponential()) // 1e-1
+console.log(newNum2.toExponential(2)) // 1.00e-1
+console.log(newNum2.toExponential(3)) // 1.000e-1
+// --------------------------------------------------------------------------------
+// toPrecision - визначає кількість знаків числа
+console.log(newNum2.toPrecision()) // 0.1
+console.log(newNum2.toPrecision(1)) // 0.1
+console.log(newNum2.toPrecision(2)) // 0.10
+console.log(newNum2.toPrecision(3)) // 0.100
+// --------------------------------------------------------------------------------
+// toString - перетворює число в рядок
+console.log(newNum2.toString()) // 0.1
+console.log(newNum.toString()) // 1
+// --------------------------------------------------------------------------------
 // #endregion
 
 // #region Об'єкти
