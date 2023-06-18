@@ -1316,6 +1316,126 @@ console.log(newNum.toString()) // 1
 // --------------------------------------------------------------------------------
 // #endregion
 
+// #region Вбудовані рядкові функції
+// .length - властивість яка визначає довжину рядка
+let str = 'Hello world '
+console.log(str.length) // 11
+console.log('Hello world'.length) // 11
+
+const str2 = () => 'Hello world'
+console.log(str2().length) // 11
+// --------------------------------------------------------------------------------
+// .fromCharCode - метод який повертає символ за його кодом
+console.log(String.fromCharCode(65)) // A
+console.log(String.fromCharCode(97)) // a
+console.log(String.fromCharCode(65, 66, 67)) // ABC
+console.log(String.fromCharCode(128514)) // 😂
+// .fromCodePoint - метод який повертає символ за його кодом
+console.log(String.fromCodePoint(65)) // A
+console.log(String.fromCharPoint(128515)) // 😃
+let capricorn = String.fromCodePoint(0x2651) // ♑
+console.log(capricorn) // ♑
+// .charCodeAt(index) - метод який повертає код символа за його індексом
+console.log(str.charCodeAt(0)) // 72
+console.log(str.charCodeAt(1)) // 101
+console.log(str.charCodeAt(23251)) // NaN
+// список символів = https://unicode-table.com/en/
+// або https://en.wikipedia.org/wiki/List_of_Unicode_characters
+// --------------------------------------------------------------------------------
+// .raw - метод який повертає рядок в необробленому вигляді
+console.log(String.raw`Hello\nworld`) // Hello\nworld
+console.log(`Hello\nworld`) // Hello (\n = new line) world
+let CV = 'C:Users\\vasia\\OneDrive\\Робочий стіл\\портфоліо 2022р.docx'
+console.log(CV.raw) // C:Users\vasia\OneDrive\Робочий стіл\портфоліо 2022р.docx
+
+// Escaping
+let resultString = 'I\'m 28 years old. I like "Star Wars"'
+console.log(resultString)
+// --------------------------------------------------------------------------------
+let firstName = 'Vasyl'
+let lastName = 'Kaminskyi'
+let myCityName = 'Chernivtsi'
+
+// .concat - метод який додає рядки
+console.log(firstName.concat(lastName)) // VasylKaminskyi
+console.log(firstName.concat(' ', lastName)) // Vasyl Kaminskyi - додає пробіл між іменем та прізвищем
+console.log(firstName.concat(' ', lastName, ' ', myCityName)) // Vasyl Kaminskyi Chernivtsi
+// --------------------------------------------------------------------------------
+// .includes(searchElement, fromIndex) - метод який перевіряє чи є в рядку вказаний елемент
+const colors = 'red, green, blue, purple'
+console.log(colors.includes('black')) // false -> black там немає; true якщо в рядку є вказане слово
+console.log(colors.includes('green')) // true
+console.log(colors.includes('green', 5)) // true -> починає перевірку з 5 індексу, green починається з 6 індексу
+// --------------------------------------------------------------------------------
+// .indexOf(searchElement, fromIndex) - метод який повертає індекс вказаного елемента
+console.log(colors.indexOf('green')) // 5 -> індекс починається з 0 а green починається з 5 індексу
+console.log(myCityName.indexOf('i')) // 5 -> індекс першої букви i
+console.log(myCityName.indexOf('i', 3)) // 5 -> індекс першої букви i, починаючи пошук з 3 індексу
+// --------------------------------------------------------------------------------
+// .lastIndexOf(searchElement, fromIndex) - метод який повертає індекс вказаного елемента, починаючи з кінця
+console.log(colors.lastIndexOf('e')) // 22 -> індекс останньої букви e
+console.log(colors.lastIndexOf('e', 21)) // 18 -> індекс останньої букви e, починаючи з 21 індексу
+// --------------------------------------------------------------------------------
+// .startsWith(searchElement, length) - метод який перевіряє чи починається рядок на вказаний елемент
+// .endsWith(searchElement, length) - метод який перевіряє чи закінчується рядок на вказаний елемент
+console.log(colors.startsWith('red')) // true
+console.log(colors.startsWith('green')) // false
+console.log(colors.endsWith('purple')) // true
+console.log(colors.endsWith('blue')) // false
+// --------------------------------------------------------------------------------
+// .at(index) - метод який повертає символ за його індексом
+console.log(colors.at(0)) // r -> індекс починається з 0
+console.log(lastName.at(3)) // i
+// --------------------------------------------------------------------------------
+// .padStart(targetLength, padString) - метод який додає в початок рядка вказану кількість символів
+// .padEnd(targetLength, padString) - метод який додає в кінець рядка вказану кількість символів
+console.log(colors.padStart(30, '123')) // 123123123123123123123red, green, blue, purple
+console.log(colors.padEnd(30, '123')) // red, green, blue, purple123123123123123123123
+console.log(firstName.padEnd(1, lastName)) // VasylKaminskyi
+console.log(colors.padEnd(1, '...')) // red, green, blue, purple...
+// --------------------------------------------------------------------------------
+// .repeat(count) - метод який повторює рядок вказану кількість разів
+console.log(colors.repeat(2)) // red, green, blue, purplered, green, blue, purple
+// --------------------------------------------------------------------------------
+// .slice(start, end) - метод який повертає частину рядка
+console.log(colors.slice(0, 5)) // red, -> від 0 індексу до 5, не включаючи 5
+console.log(myCityName.slice(-5)) // ivtsi -> -5 індекс означає, що відраховуємо з кінця рядка, тобто від останнього символу
+console.log(myCityName.slice(2, -2)) // erniv -> від 2 індексу до -2 індексу
+// --------------------------------------------------------------------------------
+// .split(separator, limit) - метод який розбиває рядок на масив
+console.log(colors.split(',')) // [ 'red', ' green', ' blue', ' purple' ]
+// --------------------------------------------------------------------------------
+// .substr(start, length) - метод який повертає частину рядка (substring)
+console.log(colors.substr(0, 5)) // red, -> від 0 індексу до 5, не включаючи 5
+console.log(firstName.substring(0, 5)) // Vasyl, від 0 індексу до 5, не включаючи 5
+// --------------------------------------------------------------------------------
+// .trim() - метод який видаляє пробіли з початку і кінця рядка
+console.log(colors.trim()) // red, green, blue, purple
+console.log(colors.trim().length) // 22
+console.log(str.trim()) // Hello World
+// .trimStart() - метод який видаляє пробіли з початку рядка
+console.log(colors.trimStart()) // red, green, blue, purple
+// .trimEnd() - метод який видаляє пробіли з кінця рядка
+console.log(colors.trimEnd()) // red, green, blue, purple
+// але їх там і так немає, але знати це треба))
+// --------------------------------------------------------------------------------
+// .toLowerCase() - метод який переводить рядок в нижній регістр
+console.log(firstName.toLowerCase()) // vasyl
+// --------------------------------------------------------------------------------
+// .toUpperCase() - метод який переводить рядок в верхній регістр
+console.log(firstName.toUpperCase()) // VASYL
+// --------------------------------------------------------------------------------
+// .replace(subStringOrRegexp, newSubStringOrCallback) - метод який заміняє частину рядка на інший рядок
+console.log(colors.replace('red', 'yellow')) // yellow, green, blue, purple
+console.log(colors.replace(/red/g, 'yellow')) // yellow, green, blue, purple
+// /red/g - регулярний вираз, який замінює всі входження red на yellow
+// --------------------------------------------------------------------------------
+// .charAt(index) - метод який повертає символ за його індексом
+console.log(colors.charAt(0)) // r
+console.log(firstName.charAt(firstName.length - 1)) // отримуємо останній символ строки
+// --------------------------------------------------------------------------------
+// #endregion
+
 // #region Об'єкти
 // всі сутності в джаваскріпт це об'єкти
 const myCity = {
@@ -1529,41 +1649,6 @@ let greeting = hello + ' ' + world
 greeting = `${hello} ${world}`
 // Hello World!
 // Але такий запис простіший, тут навіть не потрібно щоб перемінна була строкою
-
-let firstName = 'Vasyl'
-let lastName = 'Kaminskyi'
-let myCityName = 'Chernivtsi'
-
-greeting = `Hello, my name is ${firstName}. i'm living in ${myCityName}.`
-console.log(greeting)
-
-let resultString
-// Escaping
-resultString = 'I\'m 28 years old. I like "Star Wars"'
-console.log(resultString)
-
-// Properties and methods
-console.log('Hello!'.length) // 6
-console.log(firstName.concat(lastName)) // VasylKaminskyi
-console.log(firstName.concat(' ', lastName)) // Vasyl Kaminskyi !!!
-console.log(firstName.toUpperCase()) // VASYL
-console.log(firstName.toLowerCase()) // vasyl
-console.log(firstName[0]) // V; [1] -> a
-console.log(firstName.indexOf('V')) // 0
-console.log(firstName.indexOf('a')) // 1
-console.log(firstName.lastIndexOf('s')) // 2, видається останній індекс вказаної букви, тобто вибереться остання буква s і виводиться її індекс; якщо символу немає, то індекс буде -1
-console.log(firstName.charAt(1)) // 'a'
-console.log(firstName.charAt(firstName.length - 1)) // отримуємо останній символ строки
-console.log(greeting.substring(0, 5)) // Hello , але треба знати що ми витягуємо)). Тут ми знаємо фразу і ми витягнули вказане слово
-console.log(greeting.slice(0, 5)) // Hello -> це вивід символів з 0 по 5
-console.log(greeting.slice(-5)) // vtsi. тобто останні 5 символів, які є по суті в const myCityName = 'Chernivtsi';
-console.log(greeting.split(' ')) // розбиваємо строку, по суті, на масив який розділений вказаним символом
-const colors = 'red, green, blue, purple'
-console.log(colors.split(',')) // [ 'red', ' green', ' blue', ' purple' ]
-console.log(colors.replace('red', 'yellow')) // заміняє одне вказане слово на інше
-console.log(colors.includes('black')) // false -> black там немає; true якщо в рядку є вказане слово
-
-console.log(resultString)
 // #endregion
 
 // #region Функціональні вирази
