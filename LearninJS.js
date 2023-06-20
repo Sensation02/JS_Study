@@ -1,3 +1,5 @@
+const e = require('express')
+
 // #region Перемінні
 let num = 1 // тип перемінної який доступний тільки в межах видимості.
 const NAME = `Bazzil` // тип перемінної як і let який ніколи не зміниться, тому що константа, нові значення в таку перемінну не присвоїти. Константи пишуться великими літерами.
@@ -1811,14 +1813,16 @@ console.log(printFullName5(`John`, `Doe`, `Hello`)) // John Doe Hello
 // всі сутності в джаваскріпт це об'єкти
 const myCity = {
   // - об'єкт
-  city: `Chernivtsi`, // - властивості об'єкт, їх порядок немає значення
+  city: `Chernivtsi`, // - властивості об'єкту, їх порядок немає значення
   popular: true,
   country: `Ukraine`,
+  ['cityLandmark']: [`Kobylyanska`, `Central Square`], // - властивість об'єкту, яка містить масив
 }
 
 console.log(myCity) // {city: `Chernivtsi`, popular: true, country: `Ukraine`}
 // точковий запис:
 console.log(myCity.city) // `Chernivtsi`
+console.log(myCity['cityLandmark']) // [`Kobylyanska`, `Central Square`]
 // тощо
 
 // зміна властивостей використовуючи точковий запис:
@@ -1867,7 +1871,137 @@ delete myNewCity.info.country
 // як додавати:
 const countryPropertyName = 'country'
 myNewCity.info[countryPropertyName] = 'USA'
+// ==============================================================================================
+const employee = {
+  name: 'John',
+  age: 30,
+  'job title': 'Software Engineer',
+  address: {
+    city: 'New York',
+    street: 'Broadway',
+    houseNumber: 1,
+  },
+}
+// використання циклів з об'єктами:
+for (const key in employee) {
+  console.log(key) // name, age, job title, address - виводить ключі об'єкту
+}
+// for (const value of employee) {
+//   console.log(value) // помилка - об'єкт не ітерується, так ітерується тільки масив
+// }
+// але можна використовувати методи об'єкта Object:
+console.log(Object.keys(employee)) // ["name", "age", "job title", "address"]
+console.log(Object.values(employee)) // ["John", 30, "Software Engineer", {city: "New York", street: "Broadway", houseNumber: 1}]
+console.log(Object.entries(employee)) // [["name", "John"], ["age", 30], ["job title", "Software Engineer"], ["address", {city: "New York", street: "Broadway", houseNumber: 1}]]
+// Деструктуризація об'єктів:
+const { name, age } = employee
+console.log(name) // "John"
+const address = ({ city, street, houseNumber } = employee.address)
+console.log(address)
+const { city: cityName } = employee.address // можна перейменовувати
+console.log(cityName) // "New York"
+const {
+  name,
+  age,
+  address: { city, street, houseNumber },
+  ...rest
+} = employee
+console.log(rest) // {job title: "Software Engineer"} - решта властивостей об'єкту
+// ==============================================================================================
+// робота з функціями:
+function getEmployeeInfo(employee) {
+  console.log(employee)
+}
+getEmployeeInfo(employee) // {name: "John", age: 30, job title: "Software Engineer", address: {…}}
+function getAddress(employee) {
+  console.log(`Employee address: ${employee.address}`)
+}
+getAddress(employee) // Employee address: [object Object] - не працює
+function getAddress(employee) {
+  console.log(`Employee address: ${employee.address.city}`)
+}
+getAddress(employee) // Employee address: New York - працює. Тобто викликаємо властивість об'єкту, і так треба писати з кожною властивістю об'єкту, це не зручно
+function getAddress({ address: { city = 'undefined', street, houseNumber } }) {
+  console.log(`Employee address: ${city}, ${street}, ${houseNumber}`)
+}
+getAddress(employee) // Employee address: New York, Broadway, 1 - так зручніше
+// тобто в таку функцію ми передаємо об'єкт, а в тілі функції використовуємо деструктуризацію об'єкту
+// або можна використовувати деструктуризацію в аргументі функції щоб змінити властивості об'єкту:
+getAddress((city = 'chernivtsi'), street, houseNumber) // Employee address: chernivtsi, Broadway, 1
+// ==============================================================================================
+// створення нового об'єкту:
+const newEmployee = {
+  ...employee, // копіюємо властивості з employee
+  name: 'Bob', // перезаписуємо властивість з новим значенням
+  age: 25,
+  address: {
+    ...employee.address,
+    city: 'Lviv',
+    street: 'Shevchenka',
+    houseNumber: 10,
+  },
+}
+console.log(newEmployee) // {name: "Bob", age: 25, job title: "Software Engineer", address: {…}}
+// створення нового об'єкту з допомогою функції:
+function createNewEmployee(name, age, jobTitle, city, street, houseNumber) {
+  return {
+    name,
+    age,
+    jobTitle,
+    address: {
+      city,
+      street,
+      houseNumber,
+    },
+  }
+}
+const newEmployee2 = createNewEmployee(
+  'Vasyl',
+  35,
+  'QA',
+  'Kyiv',
+  'Khreshchatyk',
+  1,
+)
+console.log(newEmployee2) // {name: "Vasyl", age: 35, jobTitle: "QA", address: {…}}
+// ==============================================================================================
+// оператор in - перевіряє чи є така властивість в об'єкті:
+console.log('name' in employee) // true
+console.log('salary' in employee) // false
+// хоча можна і простіше:
+console.log(!!employee.name) // true
+console.log(!!employee.salary) // false
+// оператор this - вказує на об'єкт в якому він використовується:
+const myNewCity = {
+  city: 'New York',
+  CityGreeting() {
+    // це метод об'єкту
+    console.log(`Hello from ${this.city}!`)
+  },
+  getAddress: function () {
+    // метод в якому функція
+    console.log(this.city)
+  },
+}
+// ==============================================================================================
+// літеральна нотація:
+const myCity = 'Chernivtsi'
+const myStreet = 'Holovna'
 
+const myAddress = {
+  city: myCity,
+  street: myStreet,
+}
+// або на прикладі додавання нової властивості до існуючого об'єкту в JS:
+Number.prototype.isPositive = function () {
+  return this > 0
+}
+console.log(num.isPositive()) // true
+// тобто додали нову властивість (функцію) до прототипу Number
+myAddress.prototype.getAddress = function () {
+  console.log(this.city)
+}
+console.log(myAddress.getAddress()) // Chernivtsi
 // #endregion
 
 // #region Глобальні об'єкт
