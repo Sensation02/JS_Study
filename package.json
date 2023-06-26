@@ -2,10 +2,10 @@
   "name": "js-study",
   "version": "0.0.1",
   "description": "test project",
-  "main": "server.js",
+  "main": "LearninJS.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "dev": "nodemon LearninJS.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,7 @@
     "express": "^4.18.2",
     "livereload": "^0.9.3",
     "nodemon": "^2.0.22"
-  }
+  },
+  "devDependencies": {},
+  "keywords": []
 }

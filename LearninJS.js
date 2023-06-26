@@ -388,8 +388,8 @@ switch (light) {
 // #region Скорочення в JavaScript
 // 1
 // if else - можна скоротити до тернарного оператора (тернарний оператор - це оператор, який має три операнда) (умова ? вираз1 : вираз2)
-age = 20
-age >= 18 ? console.log(`Ви повнолітній`) : console.log(`Ви не повнолітній`)
+let age12 = 20
+age12 >= 18 ? console.log(`Ви повнолітній`) : console.log(`Ви не повнолітній`)
 
 // ===========================================================================
 // 2
@@ -1021,19 +1021,19 @@ runCommand(
 )
 // --------------------------------------------------------------------------------
 // стрілочна функція
-const sum = (num1, num2) => {
+const sum1 = (num1, num2) => {
   const result = num1 + num2
   return result
 }
-console.log(sum(10, 10)) // 20
+console.log(sum1(10, 10)) // 20
 // --------------------------------------------------------------------------------
 // стрілочна функція без фігурних дужок
-const sum = (num1, num2) => num1 + num2
-console.log(sum(10, 10)) // 20
+const sum2 = (num1, num2) => num1 + num2
+console.log(sum2(10, 10)) // 20
 // --------------------------------------------------------------------------------
 // каррірована функція (функція яка повертає функцію)
-const sum = (num1) => (num2) => num1 + num2
-console.log(sum(10)(10)) // 20
+const sum3 = (num1) => (num2) => num1 + num2
+console.log(sum3(10)(10)) // 20
 // --------------------------------------------------------------------------------
 // Мемоізація - це збереження результатів виконання функції для певного набору аргументів
 function memoize(fn) {
@@ -1104,16 +1104,16 @@ const getSpaceFromDesign = (componentName) => {
   }
 }
 
-const calcSpace = (multiplier, unit) => (componentName) => {
+const calcSpace2 = (multiplier, unit) => (componentName) => {
   const spaceFromDesign = getSpaceFromDesign(componentName)
   return `${multiplier * parseInt(spaceFromDesign)}${unit}` // тут ми використовуємо результат з "на скільки множимо" * "розмір з дизайну" та "в яких одиницях"
 }
 
-const calcSpaceForButton = calcSpace(4, 'px')('button') // 64px - 4 * 16px (розмір з дизайну)
+const calcSpaceForButton = calcSpace2(4, 'px')('button') // 64px - 4 * 16px (розмір з дизайну)
 console.log(calcSpaceForButton)
-const calcSpaceForInput = calcSpace(2, 'px')('input') // 16px - 2 * 8px (розмір з дизайну)
+const calcSpaceForInput = calcSpace2(2, 'px')('input') // 16px - 2 * 8px (розмір з дизайну)
 console.log(calcSpaceForInput)
-const calcSpaceForLabel = calcSpace(1, 'px')('label') // 4px - 1 * 4px (розмір з дизайну)
+const calcSpaceForLabel = calcSpace2(1, 'px')('label') // 4px - 1 * 4px (розмір з дизайну)
 console.log(calcSpaceForLabel)
 // і так далі
 // або
@@ -1520,11 +1520,11 @@ myArray['test'] = 'text'
 console.log(myArray) // [ 1, 2, 3, 'abc', null, <1 empty item>, test, test: 'text' ] - додаємо новий елемент в масив через індекс, при чому в цього елемента є певна назва (test: 'text')
 console.log(myArray.test) // text (отримуємо значення елемента масиву по індексу test. Але робити так не потрібно, бо це не є правильним використанням масиву)
 // АЛЕ якщо додавати в кінець масиву, то краще використовувати метод .push()
-// .push() - метод який додає елемент в кінець масиву
+// .push(...elements) - метод який додає елемент в кінець масиву
 myArray.push('new element')
 console.log(myArray) // [ 1, 2, 3, 'abc', null, <1 empty item>, test, test: 'text', 'new element' ]
 // --------------------------------------------------------------------------------
-// .unshift() - метод який додає елемент в початок масиву
+// .unshift(...elements) - метод який додає елемент в початок масиву
 myArray.unshift('new element 2')
 console.log(myArray) // [ 'new element 2', 1, 2, 3, 'abc', null, <1 empty item>, test, test: 'text', 'new element' ]
 // --------------------------------------------------------------------------------
@@ -1532,14 +1532,34 @@ console.log(myArray) // [ 'new element 2', 1, 2, 3, 'abc', null, <1 empty item>,
 myArray.shift()
 console.log(myArray) // [ 1, 2, 3, 'abc', null, <1 empty item>, test, test: 'text', 'new element' ]
 // --------------------------------------------------------------------------------
-// .map() - метод який перебирає масив і виконує певну дію з кожним елементом масиву
+// .map() - метод який перебирає масив і виконує певну дію з кожним елементом масиву (повертає новий масив)
 const myArray3 = myArray2.map((item) => item * 2) // дужки можна не ставити, якщо в функції тільки один параметр, це так, згадано з попередніх уроків :)
 // ми перебираємо масив myArray2 і кожен елемент масиву ми помножимо на 2
 // таким методом можна робити багато чого
 myArray3 = myArray2.map((item) => item + 2)
 // ми перебираємо масив myArray2 і кожен елемент масиву ми додаємо 2 тощо
+
+const usersBalance = [
+  { name: 'Alex', balance: 1000 },
+  { name: 'Bob', balance: 1200 },
+  { name: 'John', balance: 300 },
+  { name: 'Jane', balance: 4400 },
+  { name: 'Kate', balance: 5000 },
+]
+const balanceLimit = usersBalance.map((user) => {
+  user.balanceLimit = 1000 - user.balance
+
+  if (user.balance < 0) {
+    return (user.balanceLimit = 0)
+  } else if (user.balance >= 1000) {
+    return (user.balanceLimit = 10000)
+  } else {
+    return (user.balanceLimit = user.balance)
+  }
+})
+console.log(balanceLimit)
 // --------------------------------------------------------------------------------
-// .filter() - метод який перебирає масив і видаляє певні елементи масиву
+// .filter((value, index, array) => {}) - метод який перебирає масив і видаляє певні елементи масиву
 const myArray4 = myArray2.filter((item) => item > 2)
 // ми перебираємо масив myArray2 і видаляємо всі елементи масиву, які менші за 2
 console.log(myArray4) // [ 3, 4, 5, 6, 7, 8, 9, 10 ]
@@ -1547,7 +1567,7 @@ myArray4 = myArray2.filter((item) => item % 2 === 0)
 // ми перебираємо масив myArray2 і видаляємо всі елементи масиву, які не є парними тощо
 console.log(myArray4) // [ 2, 4, 6, 8, 10 ]
 // --------------------------------------------------------------------------------
-// .forEach() - метод який перебирає масив і виконує певну дію з кожним елементом масиву
+// .forEach((el, index, array) => {}, thisArg) - метод який перебирає масив і виконує певну дію з кожним елементом масиву (не повертає новий масив)
 myArray2.forEach((item) => console.log(item))
 // ми перебираємо масив myArray2 і виводимо кожен елемент масиву в консоль
 // або давай придумаємо щось цікаве
@@ -1578,7 +1598,7 @@ myArray5.forEach((item, index) => {
 
 // Комбінації таких методів дає багато можливостей для роботи з масивами :)
 // --------------------------------------------------------------------------------
-// .reduce() - метод який перебирає масив і виконує певну дію з кожним елементом масиву
+// .reduce(callbackFn, initialValue) - метод який перебирає масив і виконує певну дію з кожним елементом масиву і повертає одне значення
 myNewArray = [1, 2, 3, 4, 5, 10, 20]
 const myArray6 = myNewArray.reduce((sum, item) => sum + item, 0)
 console.log(myArray6) // 45
@@ -1586,7 +1606,7 @@ console.log(myArray6) // 45
 // 0 - це початкове значення, яке ми встановлюємо для sum, якщо ми його не встановимо, то воно буде рівне першому елементу масиву
 myArray6 = myNewArray.reduce((sum, item) => sum + item, 10) // тут початкове значення sum буде 10
 console.log(myArray6) // 55
-myArray6 = myNewArray.reduce((sum, item) => sum + item) // тут початкове значення sum буде 1 (перший елемент масиву)
+myArray6 = myNewArray.reduce((sum, item) => sum + item) // тут початкове значення sum буде 1
 console.log(myArray6) // 46
 // тепер приклад не з числами
 let strArray = ['hello', 'Vasyl', 'c', 'd', 'world']
@@ -1594,10 +1614,24 @@ const strArray2 = strArray
   .reduce((sum, item) => sum + item, '')
   .replace(/ /g, ', ')
 console.log(strArray2) // hello, Vasyl, c, d, world
+const productsCart = [
+  { name: 'Milk', price: 20, count: 2 },
+  { name: 'Bread', price: 10, count: 3 },
+  { name: 'Meat', price: 50, count: 1 },
+]
+const total = productsCart.reduce(
+  (sum, item) => sum + item.price * item.count,
+  0,
+)
+console.log(total) // 130 - це сума всіх товарів в кошику
 // --------------------------------------------------------------------------------
-// .replace() - метод який замінює певні символи в стрічці на інші, або видаляє їх, як в прикладі вище
+// .reduceRight(callbackFn, initialValue) - метод який перебирає масив з кінця і виконує певну дію з кожним елементом масиву і повертає одне значення
+const totalPrice = productsCart.reduceRight((sum, item) => sum + item.price, 0)
+console.log(totalPrice) // 80 - це сума всіх товарів в кошику
 // --------------------------------------------------------------------------------
-// .splice() - метод який дозволяє видаляти елементи масиву, або додавати їх
+// .replace(deleted, replacer) - метод який замінює певні символи в стрічці на інші, або видаляє їх, як в прикладі вище
+// --------------------------------------------------------------------------------
+// .splice(start, end) - метод який дозволяє видаляти елементи масиву і додавати їх в масив з певного індексу масиву (start) і до певного індексу (end) масиву (не включаючи його) і повертає масив з видаленими елементами масиву (якщо ми видаляємо їх) або масив з доданими елементами масиву (якщо ми додаємо їх)
 myArray2 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 myArray2.splice(0, 1) // видаляємо перший елемент масиву
 console.log(myArray2) // [ 2, 3, 4, 5, 6, 7, 8, 9 ]
@@ -1607,8 +1641,11 @@ console.log(myArray2) // [ 4, 5, 6, 7, 8, 9 ]
 // якщо другий параметр не вказувати, то видаляться всі елементи масиву починаючи з індексу який ми вказали
 myArray2.splice(0) // видаляємо всі елементи масиву
 console.log(myArray2) // []
+// а тепер давайте додамо елементи в масив
+myArray2.splice(0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9) // додаємо елементи в масив
+console.log(myArray2) // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 // --------------------------------------------------------------------------------
-// .slice() - метод який дозволяє вибрати певну частину масиву
+// .slice(from, amount) - метод який дозволяє вибрати певну частину масиву i повертає у новий масив
 myArray2 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const myNewArray3 = myArray2.slice(0, 3) // вибираємо перші три елементи масиву
 console.log(myNewArray3) // [ 1, 2, 3 ]
@@ -1724,6 +1761,65 @@ console.log(myArray.every((item) => item > 1)) // false
 // .some() - метод який перевіряє чи хоча б один елемент масиву відповідає заданому умові
 console.log(myArray.some((item) => item > 8)) // true
 console.log(myArray.some((item) => item > 9)) // false - бо немає елементів більших за 9
+// --------------------------------------------------------------------------------
+// .find() - метод який повертає перший елемент масиву який відповідає заданому умові
+console.log(myArray.find((item) => item > 8)) // 9
+console.log(myArray.find((item) => item > 9)) // undefined - бо немає елементів більших за 9
+
+const userList = [
+  { id: 1, name: 'Vlad', age: 25 },
+  { id: 23, name: 'Elena', age: 17 },
+  { id: 58, name: 'Ivan', age: 18 },
+  { id: 92, name: 'Iryna', age: 23 },
+]
+
+let userAge
+const userBigAge = userList.find((user) => {
+  if (user.age > 18) {
+    return (userAge = `${user.name}\`s age is: ${user.age}`)
+  }
+})
+console.log(userAge) // Vlad`s age is: 25
+console.log(userBigAge) // { id: 1, name: 'Vlad', age: 25 }
+// --------------------------------------------------------------------------------
+// .findIndex((value, index, array) => {}) - метод який повертає індекс першого елемента масиву який відповідає заданому умові
+console.log(userList.findIndex((user) => user.age > 18)) // 0 - бо перший елемент масиву відповідає умові
+// --------------------------------------------------------------------------------
+// .findLastIndex((value, index, array) => {}) - метод який повертає індекс останнього елемента масиву який відповідає заданому умові
+console.log(userList.findLastIndex((user) => user.age > 18)) // 3 - бо останній елемент масиву відповідає умові
+// --------------------------------------------------------------------------------
+// .values() - метод який повертає ітератор з значеннями масиву
+console.log(userList.values()) // Object [Array Iterator] {} - ітератор
+const iter = userList.values() // створюємо ітератор зі значеннями масиву
+for (const value of iter) {
+  console.log(value) // { id: 1, name: 'Vlad', age: 25 } ... - значення масиву
+}
+// --------------------------------------------------------------------------------
+// .keys() - метод який повертає ітератор з індексами масиву
+console.log(userList.keys()) // Object [Array Iterator] {} - ітератор
+const iter2 = userList.keys() // створюємо ітератор з індексами масиву
+for (const value of iter2) {
+  console.log(value) // 0 ... - індекси масиву
+}
+// --------------------------------------------------------------------------------
+// .join(separator) - метод який перетворює масив в рядок, розділяючи елементи масиву заданим роздільником
+console.log(myArray.join()) // 1,2,3,4,5,6,7,8,9
+console.log(myArray.join('')) // 123456789
+console.log(myArray.join(' ')) // 1 2 3 4 5 6 7 8 9 тощо
+
+const productCart = ['milk', 'bread', 'eggs', 'cheese']
+console.log(productCart.join(', ')) // milk, bread, eggs, cheese
+// --------------------------------------------------------------------------------
+// .flat(depth) - метод який вирівнює масив до заданої глибини (по замовчуванню 1) і повертає новий масив
+myArray = [1, 2, 3, [4, 5, 6, [7, 8, 9]]]
+console.log(myArray.flat()) // [ 1, 2, 3, 4, 5, 6, [ 7, 8, 9 ] ] - вирівняли до глибини 1
+console.log(myArray.flat(2)) // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] - вирівняли до глибини 2
+// --------------------------------------------------------------------------------
+// .flatMap((value, index, array) => {}, thisArg) - метод який вирівнює масив до глибини 1 і повертає новий масив
+// в якому кожен елемент масиву перетворюється в елемент відповідно до callback-функції
+myArray = [1, 2, 3, [4, 5, 6, [7, 8, 9]]]
+const flatArray = myArray.flatMap((item) => item * 2, 3)
+console.log(flatArray) // [ 2, 4, 6, 8, 10, 12, [ 7, 8, 9 ] ] - вирівняли до глибини 1 і помножили на 2
 // ================================================================================================
 // delete - оператор який видаляє елемент з масиву (але не видаляє його індекс)
 delete myArray[myArray.length - 1] // видаляємо останній елемент масиву
@@ -2082,7 +2178,7 @@ console.log('salary' in employee) // false
 console.log(!!employee.name) // true
 console.log(!!employee.salary) // false
 // оператор this - вказує на об'єкт в якому він використовується:
-const myNewCity = {
+const myNewCity3 = {
   city: 'New York',
   CityGreeting() {
     // це метод об'єкту
@@ -2095,11 +2191,11 @@ const myNewCity = {
 }
 // ==============================================================================================
 // літеральна нотація:
-const myCity = 'Chernivtsi'
+const myCity2 = 'Chernivtsi'
 const myStreet = 'Holovna'
 
 const myAddress = {
-  city: myCity,
+  city: myCity2,
   street: myStreet,
 }
 // або на прикладі додавання нової властивості до існуючого об'єкту в JS:
