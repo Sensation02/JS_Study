@@ -2208,6 +2208,121 @@ myAddress.prototype.getAddress = function () {
   console.log(this.city)
 }
 console.log(myAddress.getAddress()) // Chernivtsi
+// ==============================================================================================
+// Вбудовані можливості об'єктів:
+// Object.assign(target, source1, source2, ...sourceN) - копіює властивості з одного об'єкту в інший:
+const article = {
+  id: 130294,
+  info: {
+    title: 'JS',
+    description: 'JS is awesome',
+  },
+  category: 'IT',
+  likeAmount: 305,
+}
+const ARTICLE_FIELD = {
+  title: 'Article ID',
+  description: 'Article description',
+}
+articlePhoto = {
+  photo: 'https://someurl.com',
+  photoId: 123456,
+  photoType: 'jpg',
+}
+articleCommentList = {
+  commentList: [
+    {
+      id: 1,
+      text: 'some text',
+      user: 'user1',
+    },
+  ],
+}
+// а тепер повернемо новий об'єкт з властивостями з трьох об'єктів:
+const newArticle = Object.assign(
+  {},
+  article,
+  ARTICLE_FIELD,
+  articlePhoto,
+  articleCommentList,
+)
+console.log(newArticle)
+console.log('====================')
+// замість {} (пустого об'єкту) можна використовувати існуючий об'єкт, тоді властивості будуть перезаписуватися в існуючий об'єкт
+// ------------------------------------------------------------------------------------------
+// Object.entries(obj) - повертає масив масивів, де перший елемент - ключ, а другий - значення:
+console.log(Object.entries(newArticle))
+// в такому випадку можна легко ітерувати по об'єкту:
+for (const [key, value] of Object.entries(newArticle)) {
+  console.log(`Ключ: ${key}, Значення: ${value}`)
+}
+console.log('====================')
+// або:
+Object.entries(newArticle).forEach(([key, value]) => {
+  console.log(`Ключ: ${key}, Значення: ${value}`)
+})
+console.log('====================')
+// або:
+const formList = Object.entries(newArticle).map(([key, value]) => {
+  return `Ключ: ${key}, Значення: ${value}`
+}) // але не забуваємо що цей метод повертає новий масив тому тут окрема змінна
+console.log(formList)
+console.log('====================')
+// або повертаємо масив з властивостями об'єкту:
+const formListLayout = Object.entries(article.info).map(([key, value]) => {
+  return [ARTICLE_FIELD[key], value] // тут ми пов'язали властивості іншого об'єкту з властивостями з іншого об'єкту, ніби ми працюємо із базами даних, де є зв'язки між таблицями. Тобто ми використовуємо ключі одного об'єкту для властивостей іншого об'єкту.
+})
+console.log(formListLayout)
+// ------------------------------------------------------------------------------------------
+// Object.fromEntries(arr) - створює об'єкт з масиву масивів, де перший елемент - ключ, а другий - значення:
+const fromEntries = Object.fromEntries(formListLayout)
+console.log(fromEntries) // {Article ID: "JS", Article description: "JS is awesome"}
+// ------------------------------------------------------------------------------------------
+// Object.hasOwnProperty(prop) - перевіряє чи є властивість в об'єкті:
+console.log(newArticle.hasOwnProperty('id')) // true
+console.log(newArticle.hasOwnProperty('title')) // false
+// ------------------------------------------------------------------------------------------
+// Object.propertyIsEnumerable(prop) - перевіряє чи є властивість в об'єкті і чи можна її перебрати:
+console.log(newArticle.propertyIsEnumerable('id')) // true
+console.log(newArticle.propertyIsEnumerable('title')) // false - не числова властивість, тому її не можна перебрати
+// ------------------------------------------------------------------------------------------
+// Object.is(obj1, obj2) - перевіряє чи є два об'єкти однаковими:
+console.log(Object.is(article, newArticle)) // false - бо це два різні об'єкти
+// ------------------------------------------------------------------------------------------
+// Object.freeze(obj) - заморожує об'єкт, тобто не можна буде додавати нові властивості, видаляти і змінювати існуючі:
+Object.freeze(newArticle)
+newArticle.id = 123456
+console.log(newArticle) // id: 130294 - не змінилося
+// ------------------------------------------------------------------------------------------
+// Object.isFrozen(obj) - перевіряє чи заморожений об'єкт:
+console.log(Object.isFrozen(newArticle)) // true - бо ми заморозили його раніше
+// ------------------------------------------------------------------------------------------
+// Object.preventExtensions(obj) - забороняє додавати нові властивості в об'єкт, але можна змінювати існуючі та видаляти:
+Object.preventExtensions(newArticle)
+newArticle.id = 123456
+console.log(newArticle) // id: 123456 - змінилося
+newArticle.newProp = 'new prop'
+console.log(newArticle) // newProp: "new prop" - не змінилося
+// ------------------------------------------------------------------------------------------
+// Object.isExtensible(obj) - перевіряє чи можна додавати нові властивості в об'єкт:
+console.log(Object.isExtensible(newArticle)) // false - бо ми заборонили додавати нові властивості
+// ------------------------------------------------------------------------------------------
+// Object.seal(obj) - запечатує об'єкт, тобто не можна буде додавати нові властивості, їх видаляти, але можна змінювати існуючі:
+Object.seal(newArticle)
+newArticle.id = 123456
+console.log(newArticle) // id: 123456 - змінилося
+newArticle.newProp = 'new prop'
+console.log(newArticle) // newProp: "new prop" - не змінилося
+// ------------------------------------------------------------------------------------------
+// Object.isSealed(obj) - перевіряє чи запечатаний об'єкт:
+console.log(Object.isSealed(newArticle)) // true - бо ми запечатали його раніше
+// ------------------------------------------------------------------------------------------
+// Object.keys(obj) - повертає масив ключів об'єкта:
+console.log(Object.keys(newArticle)) // ['id', 'info', 'category', 'likeAmount', 'title', 'description', 'photo', 'photoId', 'photoType', 'commentList']
+// ------------------------------------------------------------------------------------------
+// Object.values(obj) - повертає масив значень об'єкта:
+console.log(Object.values(newArticle)) // [130294, { title: 'JS', description: 'JS is awesome' }, 'IT', 305, 'Article ID', 'Article description', 'https://someurl.com', 123456, 'jpg', [ { id: 1, text: 'some text', user: 'user1' } ]]
+
 // #endregion
 
 // #region Symbol

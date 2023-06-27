@@ -2,10 +2,10 @@
   "name": "js-study",
   "version": "0.0.1",
   "description": "test project",
-  "main": "LearninJS.js",
+  "main": "LearnJS.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon LearninJS.js"
+    "dev": "nodemon LearnJS.js"
   },
   "repository": {
     "type": "git",
