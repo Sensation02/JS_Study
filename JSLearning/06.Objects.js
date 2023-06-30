@@ -1,19 +1,3 @@
-// #region Math object
-let resultMath
-resultMath = Math.min(2, 6, 10, 1000) // 2 - мінімальне число
-resultMath = Math.PI // 3.14... - число пі
-resultMath = Math.random() // random number with point between 0 and 1
-resultMath = Math.round(3.5) // 4; 3.3 -> 3
-resultMath = Math.ceil(3.3) // 4; - округлює до більшого числа
-resultMath = Math.floor(3.7) // 3; - округлює до меншого числа
-resultMath = Math.sqrt(9) // 3 - корінь квадратний
-resultMath = Math.abs(-7) // 7 - модуль числа
-resultMath = Math.pow(2, 3) // (2*2*2) -> 8 - піднесення до степеня
-resultMath = Math.max(2, 5, 1, 200) // 200 - максимальне число
-resultMath = Math.random() * 100 // random number with point between 0 and 100
-resultMath = Math.floor(Math.random() * 100) + 1 // random number without point between 0 and 100
-// #endregion
-
 // #region Об'єкти
 // всі сутності в джаваскріпт це об'єкти
 const myCity = {
